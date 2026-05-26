@@ -8,220 +8,223 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --primary:#6366f1;--primary-dark:#4f46e5;--primary-light:#e0e7ff;
-  --success:#10b981;--warning:#f59e0b;--danger:#ef4444;
-  --bg:#f1f5f9;--sidebar:#1e293b;--card:#fff;--text:#1e293b;
-  --muted:#64748b;--border:#e2e8f0;--r:12px;
-  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
-  --sw:370px;
+  --p:#6366f1;--pd:#4f46e5;--pl:#e0e7ff;
+  --g:#10b981;--w:#f59e0b;--r:#ef4444;
+  --bg:#f1f5f9;--sb:#1e293b;--card:#fff;--tx:#1e293b;
+  --mu:#64748b;--bd:#e2e8f0;--rr:12px;
+  --sh:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+  --sw:360px;
 }
 *{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
-body{background:var(--bg);color:var(--text);min-height:100vh;display:flex}
+body{background:var(--bg);color:var(--tx);min-height:100vh;display:flex}
 
-.sidebar{width:var(--sw);min-width:var(--sw);background:var(--sidebar);color:#cbd5e1;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10}
-.sidebar-header{padding:20px 22px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
-.logo{display:flex;align-items:center;gap:9px;margin-bottom:2px}
-.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.logo-text{font-size:18px;font-weight:700;color:#f1f5f9;letter-spacing:-.3px}
-.tagline{font-size:11px;color:#475569;margin-left:41px}
-
-.key-banner{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);border-radius:7px;padding:9px 11px;margin:11px 20px 0;font-size:12px;color:#fca5a5;line-height:1.4}
-.key-banner a{color:#fca5a5;font-weight:600;text-decoration:underline;cursor:pointer}
-.key-ok-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);border-radius:20px;padding:3px 10px;font-size:11px;color:#6ee7b7;cursor:pointer;margin:11px 20px 0}
-
-.sbody{padding:14px 20px 28px;display:flex;flex-direction:column}
-.sec{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#475569;margin:14px 0 7px}
-.sec:first-child{margin-top:0}
-label{display:block;font-size:12px;font-weight:500;color:#94a3b8;margin-bottom:3px}
-input,select,textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;color:#e2e8f0;font-size:13px;padding:7px 10px;outline:none;transition:border-color .15s,background .15s}
+/* sidebar */
+.sb{width:var(--sw);min-width:var(--sw);background:var(--sb);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10}
+.sbh{padding:18px 20px 13px;border-bottom:1px solid rgba(255,255,255,.08)}
+.logo{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.li{width:30px;height:30px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.lt{font-size:17px;font-weight:700;color:#f1f5f9;letter-spacing:-.3px}
+.tg{font-size:10px;color:#475569;margin-left:38px}
+.kbd{margin:10px 18px 0}
+.kbd-warn{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);border-radius:6px;padding:8px 10px;font-size:11px;color:#fca5a5;line-height:1.4}
+.kbd-warn a{color:#fca5a5;font-weight:600;text-decoration:underline;cursor:pointer}
+.kbd-ok{display:inline-flex;align-items:center;gap:4px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);border-radius:20px;padding:2px 9px;font-size:11px;color:#6ee7b7;cursor:pointer}
+.sbd{padding:12px 18px 28px}
+.st{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#475569;margin:12px 0 6px}
+label{display:block;font-size:12px;color:#94a3b8;margin-bottom:2px}
+input,select,textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:#e2e8f0;font-size:13px;padding:6px 10px;outline:none}
 input::placeholder,textarea::placeholder{color:#475569}
-input:focus,select:focus,textarea:focus{border-color:var(--primary);background:rgba(99,102,241,.1)}
+input:focus,select:focus,textarea:focus{border-color:var(--p);background:rgba(99,102,241,.1)}
 select option{background:#1e293b}
-textarea{resize:vertical;min-height:120px;line-height:1.5}
-.f{margin-bottom:9px}
-.f2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-
-.tabs{display:flex;gap:5px;margin-bottom:7px}
-.tab{flex:1;padding:5px;border:1px solid rgba(255,255,255,.1);border-radius:5px;background:transparent;color:#64748b;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;width:auto}
-.tab.active{background:rgba(99,102,241,.2);border-color:var(--primary);color:#a5b4fc}
-.tp{display:none}.tp.active{display:block}
-
-.drop{border:2px dashed rgba(255,255,255,.12);border-radius:7px;padding:18px 12px;text-align:center;cursor:pointer;transition:all .15s;background:rgba(255,255,255,.03)}
-.drop:hover,.drop.over{border-color:var(--primary);background:rgba(99,102,241,.08)}
+textarea{resize:vertical;min-height:110px;line-height:1.5}
+.f{margin-bottom:8px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tabs{display:flex;gap:4px;margin-bottom:6px}
+.tab{flex:1;padding:4px;border:1px solid rgba(255,255,255,.1);border-radius:5px;background:transparent;color:#64748b;font-size:11px;cursor:pointer;transition:all .15s;width:auto}
+.tab.on{background:rgba(99,102,241,.2);border-color:var(--p);color:#a5b4fc}
+.tp{display:none}.tp.on{display:block}
+.drop{border:2px dashed rgba(255,255,255,.12);border-radius:6px;padding:16px 12px;text-align:center;cursor:pointer;background:rgba(255,255,255,.03)}
+.drop:hover,.drop.ov{border-color:var(--p);background:rgba(99,102,241,.08)}
 .drop input{display:none}
-
-.cb{display:flex;align-items:center;gap:7px;margin-bottom:8px}
-.cb input[type=checkbox]{width:14px;height:14px;min-width:14px;accent-color:var(--primary);cursor:pointer;padding:0}
+.cb{display:flex;align-items:center;gap:6px;margin-bottom:7px}
+.cb input[type=checkbox]{width:13px;height:13px;min-width:13px;accent-color:var(--p);cursor:pointer;padding:0}
 .cb label{margin:0;font-size:12px;color:#94a3b8;cursor:pointer}
+.bgo{width:100%;padding:11px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px}
+.bgo:hover{opacity:.9}.bgo:disabled{opacity:.45;cursor:not-allowed}
+.sl{text-align:center;margin-top:6px;font-size:11px;color:#475569}
+.sl a{color:#818cf8;cursor:pointer}
 
-.btn-go{width:100%;padding:11px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s,transform .1s}
-.btn-go:hover{opacity:.92;transform:translateY(-1px)}
-.btn-go:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.sample-lnk{text-align:center;margin-top:7px;font-size:11px;color:#475569}
-.sample-lnk a{color:#818cf8;text-decoration:none;cursor:pointer}
+/* main */
+.mn{margin-left:var(--sw);flex:1;padding:26px;display:flex;flex-direction:column;min-height:100vh}
+.wlc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;color:#94a3b8;padding:20px}
+.wlc-i{font-size:52px;opacity:.3}
+.wlc h2{font-size:19px;font-weight:600;color:#64748b}
+.wlc p{font-size:13px;max-width:360px;line-height:1.6}
+.steps{display:flex;flex-direction:column;gap:6px;margin-top:6px;text-align:left;max-width:340px}
+.stp{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#64748b;background:#fff;border:1px solid #e2e8f0;border-radius:7px;padding:8px 11px}
+.sn{width:18px;height:18px;border-radius:50%;background:var(--pl);color:var(--pd);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ld{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.sp{width:34px;height:34px;border:3px solid var(--bd);border-top-color:var(--p);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ld p{font-size:14px;color:var(--mu);text-align:center}
+.ld small{font-size:12px;color:#94a3b8}
 
-.main{margin-left:var(--sw);flex:1;padding:28px;display:flex;flex-direction:column;min-height:100vh}
+/* cards */
+.card{background:var(--card);border-radius:var(--rr);box-shadow:var(--sh);border:1px solid var(--bd)}
 
-.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;color:#94a3b8}
-.wi{font-size:56px;opacity:.3}
-.welcome h2{font-size:20px;font-weight:600;color:#64748b}
-.welcome p{font-size:13px;max-width:340px;line-height:1.6}
-.steps{display:flex;flex-direction:column;gap:7px;margin-top:4px;text-align:left;max-width:320px}
-.step{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:#64748b;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:9px 12px}
-.step-num{width:20px;height:20px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+/* profile card */
+.pc{padding:18px;margin-bottom:18px}
+.ct{font-size:14px;font-weight:700;margin-bottom:7px}
+.cs{font-size:13px;color:var(--mu);line-height:1.6;margin-bottom:10px}
+.br{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px}
+.bx{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px}
+.bl{background:var(--pl);color:var(--pd)}.bg{background:#d1fae5;color:#065f46}
+.skl{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:9px}
+.sk{background:#f1f5f9;color:#475569;font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid #e2e8f0}
+.tip{background:linear-gradient(135deg,#ede9fe,#e0e7ff);border-radius:6px;padding:9px 11px;font-size:12px;color:#4338ca;line-height:1.5;border-left:3px solid var(--p)}
+.tip strong{display:block;margin-bottom:1px}
 
-.loading{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:12px}
-.spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:sp .7s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-.loading p{font-size:14px;color:var(--muted);text-align:center}
-.loading small{font-size:12px;color:#94a3b8}
+/* results header */
+.rh{display:flex;align-items:center;justify-content:space-between;margin:0 0 12px;flex-wrap:wrap;gap:5px}
+.rht{font-size:15px;font-weight:700}
+.rhs{font-size:12px;color:var(--mu)}
 
-/* Analysis card */
-.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border)}
-.analysis-card{padding:20px;margin-bottom:20px}
-.ct{font-size:14px;font-weight:700;margin-bottom:8px}
-.csub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px}
-.brow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px}
-.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
-.bl{background:var(--primary-light);color:var(--primary-dark)}
-.bg{background:#d1fae5;color:#065f46}
-.skills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}
-.sk{background:#f1f5f9;color:#475569;font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid #e2e8f0}
-.tip{background:linear-gradient(135deg,#ede9fe,#e0e7ff);border-radius:7px;padding:10px 12px;font-size:12px;color:#4338ca;line-height:1.5;border-left:3px solid var(--primary)}
-.tip strong{display:block;margin-bottom:2px}
+/* job card — this is the main redesign */
+.jc{padding:20px;margin-bottom:10px;transition:box-shadow .15s,transform .1s;position:relative}
+.jc:hover{box-shadow:0 4px 24px rgba(0,0,0,.1);transform:translateY(-1px)}
 
-/* Section headers */
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin:22px 0 12px;flex-wrap:wrap;gap:6px}
-.sec-hdr-title{font-size:15px;font-weight:700}
-.sec-hdr-sub{font-size:12px;color:var(--muted)}
+.jc-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.jc-left{flex:1;min-width:0}
+.jc-title{font-size:15px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jc-co{font-size:12px;color:var(--mu);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.src-badge{font-size:10px;padding:1px 6px;border-radius:20px;font-weight:600}
+.src-remote{background:#ede9fe;color:#6d28d9}
+.src-ca{background:#d1fae5;color:#065f46}
 
-/* Canadian job board links */
-.boards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:24px}
-.board-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow);transition:box-shadow .15s,transform .1s;text-decoration:none;color:inherit}
-.board-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);transform:translateY(-1px)}
-.board-top{display:flex;align-items:center;gap:8px}
-.board-logo{font-size:20px}
-.board-name{font-size:13px;font-weight:700;color:var(--text)}
-.board-desc{font-size:11px;color:var(--muted);line-height:1.4}
-.board-kw{font-size:10px;color:var(--primary);background:var(--primary-light);padding:2px 8px;border-radius:20px;align-self:flex-start;font-weight:500}
-.board-apply{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;background:var(--primary);color:#fff;border-radius:6px;font-size:11px;font-weight:600;align-self:flex-start;margin-top:2px}
+/* Offer likelihood ring */
+.ol-ring{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px}
+.ol-circle{width:64px;height:64px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;border:3px solid currentColor}
+.ol-pct{font-size:18px;font-weight:800;line-height:1}
+.ol-lbl{font-size:7px;font-weight:700;letter-spacing:.05em;opacity:.7}
+.ol-high{color:#059669;background:#d1fae5;border-color:#6ee7b7}
+.ol-mid{color:#b45309;background:#fef3c7;border-color:#fcd34d}
+.ol-low{color:#dc2626;background:#fee2e2;border-color:#fca5a5}
 
-/* Adzuna jobs list */
-.jobs{display:flex;flex-direction:column;gap:10px}
-.jcard{padding:18px;transition:box-shadow .15s,transform .1s}
-.jcard:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);transform:translateY(-1px)}
-.jtop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.jinfo{flex:1;min-width:0}
-.jtitle{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
-.jco{font-size:12px;color:var(--muted)}
-.mscore{flex-shrink:0;width:48px;height:48px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;font-weight:800;line-height:1}
-.sl{font-size:7px;font-weight:600;opacity:.7;margin-top:1px}
-.mh{background:#d1fae5;color:#065f46}.mm{background:#fef3c7;color:#92400e}.ml{background:#fee2e2;color:#991b1b}
-.jmeta{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--muted)}
-.jdesc{font-size:12px;color:#64748b;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.jfoot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
-.mreason{font-size:11px;color:var(--primary);background:var(--primary-light);padding:2px 8px;border-radius:20px;flex:1;min-width:0}
-.vnote{font-size:11px;color:#065f46;background:#d1fae5;padding:2px 8px;border-radius:20px}
-.btn-apply{flex-shrink:0;padding:5px 13px;background:var(--primary);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:3px;transition:background .15s}
-.btn-apply:hover{background:var(--primary-dark)}
+/* Recommendation badge */
+.rec{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+.rec-apply{background:#d1fae5;color:#065f46}
+.rec-cover{background:#dbeafe;color:#1e40af}
+.rec-stretch{background:#fef3c7;color:#92400e}
+.rec-skip{background:#fee2e2;color:#991b1b}
 
-.err{background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:14px;color:#991b1b;font-size:13px;line-height:1.5}
-.warn{background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:11px 13px;font-size:12px;color:#92400e;margin-bottom:16px;line-height:1.5}
-.empty{text-align:center;padding:40px 20px;color:var(--muted)}
-.empty-i{font-size:36px;margin-bottom:9px}
+/* Breakdown sections */
+.breakdown{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;background:#f8fafc;border-radius:8px;padding:12px}
+.bk-row{display:flex;align-items:flex-start;gap:7px;font-size:12px;line-height:1.5}
+.bk-icon{flex-shrink:0;width:16px;text-align:center;margin-top:1px}
+.bk-label{color:var(--mu);font-weight:500;flex-shrink:0;width:64px}
+.bk-val{color:var(--tx);flex:1}
+.bk-val.green{color:#059669}.bk-val.red{color:#dc2626}.bk-val.amber{color:#b45309}
+
+.jc-meta{display:flex;flex-wrap:wrap;gap:7px;font-size:11px;color:var(--mu);margin-bottom:10px}
+.jc-foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.jc-sum{font-size:12px;color:var(--mu);flex:1;font-style:italic;line-height:1.4}
+.btn-ap{flex-shrink:0;padding:7px 16px;background:var(--p);color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:background .15s}
+.btn-ap:hover{background:var(--pd)}
+
+.err{background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:14px;color:#991b1b;font-size:13px;line-height:1.5;margin-bottom:10px}
+.info{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:11px 13px;font-size:12px;color:#1e40af;margin-bottom:14px;line-height:1.5}
+.empty{text-align:center;padding:36px;color:var(--mu)}
+.empty-i{font-size:34px;margin-bottom:8px}
 .empty h3{font-size:14px;font-weight:600;margin-bottom:4px;color:#475569}
 .empty p{font-size:12px;line-height:1.6}
 
-/* Modal */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;align-items:center;justify-content:center}
-.overlay.open{display:flex}
-.modal{background:#1e293b;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:26px;width:90%;max-width:460px;color:#e2e8f0}
-.modal h2{font-size:17px;font-weight:700;margin-bottom:5px;color:#f1f5f9}
-.modal-sub{font-size:12px;color:#64748b;margin-bottom:16px;line-height:1.5}
-.modal-sub a{color:#818cf8;text-decoration:none}
-.modal input{margin-bottom:10px}
-.key-test-result{font-size:12px;min-height:18px;margin-bottom:10px;font-weight:500}
-.mfoot{display:flex;gap:8px;justify-content:flex-end}
-.btn2{padding:8px 15px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#94a3b8;border-radius:7px;font-size:13px;cursor:pointer}
-.btn1{padding:8px 15px;background:var(--primary);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
-.btn1:disabled{opacity:.5;cursor:not-allowed}
-.mini-spin{width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite;display:none}
+/* modal */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;align-items:center;justify-content:center}
+.ov.open{display:flex}
+.mo{background:#1e293b;border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:24px;width:90%;max-width:450px;color:#e2e8f0}
+.mo h2{font-size:16px;font-weight:700;margin-bottom:5px;color:#f1f5f9}
+.mo-sub{font-size:12px;color:#64748b;margin-bottom:14px;line-height:1.5}
+.mo-sub a{color:#818cf8;text-decoration:none}
+.mo input{margin-bottom:8px}
+.ktr{font-size:12px;min-height:18px;margin-bottom:9px;font-weight:500}
+.mf{display:flex;gap:7px;justify-content:flex-end}
+.b2{padding:7px 14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#94a3b8;border-radius:6px;font-size:13px;cursor:pointer}
+.b1{padding:7px 14px;background:var(--p);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px}
+.b1:disabled{opacity:.5;cursor:not-allowed}
+.ms{width:11px;height:11px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none}
 
 @media(max-width:768px){
-  .sidebar{position:relative;width:100%;min-width:0}
-  .main{margin-left:0;padding:16px}
+  .sb{position:relative;width:100%;min-width:0}
+  .mn{margin-left:0;padding:14px}
   body{flex-direction:column}
   .f2{grid-template-columns:1fr}
-  .boards-grid{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- Key Modal -->
-<div class="overlay" id="keyModal">
-  <div class="modal">
+<!-- Modal -->
+<div class="ov" id="km">
+  <div class="mo">
     <h2>🔑 Anthropic API Key</h2>
-    <div class="modal-sub">
-      Get your key from <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com/settings/keys</a><br>
-      <strong style="color:#fbbf24">⚠️ This is NOT your Claude.ai password</strong> — it's a separate developer key starting with <code style="background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px">sk-ant-</code>.<br>
-      Billing must be enabled on the account.
+    <div class="mo-sub">
+      Get it from <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com → Settings → API Keys</a><br>
+      <strong style="color:#fbbf24">⚠️ NOT your claude.ai password.</strong> The key starts with <code style="background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px">sk-ant-</code> and your account needs billing enabled.
     </div>
-    <input type="password" id="keyInput" placeholder="sk-ant-api03-..." autocomplete="off">
-    <div class="key-test-result" id="keyTestResult"></div>
-    <div class="mfoot">
-      <button class="btn2" onclick="closeModal()">Cancel</button>
-      <button class="btn1" id="testSaveBtn" onclick="testAndSave()">
-        <span class="mini-spin" id="testSpin"></span>
-        <span id="testBtnLabel">Test &amp; Save</span>
+    <input type="password" id="ki" placeholder="sk-ant-api03-..." autocomplete="off">
+    <div class="ktr" id="ktr"></div>
+    <div class="mf">
+      <button class="b2" onclick="closeKm()">Cancel</button>
+      <button class="b1" id="tsb" onclick="testAndSave()">
+        <span class="ms" id="mspin"></span>
+        <span id="tslbl">Test &amp; Save</span>
       </button>
     </div>
   </div>
 </div>
 
 <div style="display:flex;width:100%">
-<aside class="sidebar">
-  <div class="sidebar-header">
+<aside class="sb">
+  <div class="sbh">
     <div class="logo">
-      <div class="logo-icon">🍁</div>
-      <span class="logo-text">JobMatch CA</span>
+      <div class="li">🍁</div>
+      <span class="lt">JobMatch CA</span>
     </div>
-    <div class="tagline">AI-powered Canadian job search</div>
+    <div class="tg">Offer likelihood — Canadian jobs</div>
   </div>
-  <div id="keyBanner"></div>
+  <div class="kbd" id="kbd"></div>
 
-  <div class="sbody">
-
-    <div class="sec">Your Resume</div>
+  <div class="sbd">
+    <div class="st">Your Resume</div>
     <div class="tabs">
-      <button class="tab active" data-tab="pt">Paste Text</button>
-      <button class="tab" data-tab="ut">Upload File</button>
+      <button class="tab on" data-t="pp">Paste</button>
+      <button class="tab" data-t="up">Upload</button>
     </div>
-    <div id="pt" class="tp active f">
-      <textarea id="resumeText" rows="7" placeholder="Paste your resume here…&#10;&#10;Include skills, experience, and education."></textarea>
+    <div id="pp" class="tp on f">
+      <textarea id="rt" rows="7" placeholder="Paste your resume…&#10;&#10;Include work experience, skills, education."></textarea>
     </div>
-    <div id="ut" class="tp f">
-      <div class="drop" id="dropzone">
-        <input type="file" id="fileInput" accept=".pdf,.txt">
-        <div style="font-size:24px;margin-bottom:4px">📄</div>
-        <div style="font-size:12px;color:#64748b;line-height:1.4"><strong style="color:#94a3b8">Click to upload</strong> or drag &amp; drop<br>PDF or TXT</div>
-        <div id="fileStatus" style="display:none;font-size:11px;margin-top:5px"></div>
+    <div id="up" class="tp f">
+      <div class="drop" id="dz">
+        <input type="file" id="fi" accept=".pdf,.txt">
+        <div style="font-size:22px;margin-bottom:3px">📄</div>
+        <div style="font-size:12px;color:#64748b"><strong style="color:#94a3b8">Click</strong> or drag PDF / TXT</div>
+        <div id="fs" style="display:none;font-size:11px;margin-top:4px"></div>
       </div>
     </div>
 
-    <div class="sec">Job Preferences</div>
+    <div class="st">Job Preferences</div>
     <div class="f">
-      <label>Target job title</label>
-      <input type="text" id="jobTitle" placeholder="e.g. Software Engineer, Data Analyst…">
+      <label>Target role (leave blank to auto-detect)</label>
+      <input type="text" id="jt" placeholder="e.g. Software Engineer, Data Analyst">
     </div>
     <div class="f2">
       <div class="f">
         <label>Graduation year</label>
-        <input type="number" id="gradYear" min="1970" max="2026" placeholder="2022">
+        <input type="number" id="gy" min="1970" max="2026" placeholder="2022">
       </div>
       <div class="f">
         <label>Job type</label>
-        <select id="jobType">
+        <select id="jtype">
           <option value="">Any</option>
           <option value="full_time">Full-time</option>
           <option value="part_time">Part-time</option>
@@ -231,58 +234,51 @@ textarea{resize:vertical;min-height:120px;line-height:1.5}
       </div>
     </div>
 
-    <div class="sec">Location in Canada</div>
+    <div class="st">Location in Canada</div>
     <div class="f">
-      <label>City / Province (optional)</label>
-      <input type="text" id="city" placeholder="e.g. Toronto, Vancouver, Remote…">
+      <label>City / Province (or "Remote")</label>
+      <input type="text" id="city" placeholder="Toronto, Vancouver, Remote…">
     </div>
 
-    <div class="sec">Requirements</div>
+    <div class="st">Requirements</div>
     <div class="cb">
-      <input type="checkbox" id="visaReq">
-      <label for="visaReq">I need visa / work permit sponsorship</label>
+      <input type="checkbox" id="vr">
+      <label for="vr">Need work permit / visa sponsorship</label>
     </div>
     <div class="f">
-      <label>Min. salary (CAD, optional)</label>
-      <input type="number" id="salMin" min="0" step="5000" placeholder="e.g. 70000">
+      <label>Min. salary (CAD)</label>
+      <input type="number" id="sal" min="0" step="5000" placeholder="e.g. 70000">
     </div>
 
-    <!-- Optional Adzuna keys for live listings -->
-    <div class="sec">Live Listings (optional)</div>
-    <div style="font-size:11px;color:#475569;margin-bottom:8px;line-height:1.5">
-      For real-time job listings, add free <a href="https://developer.adzuna.com/" target="_blank" style="color:#818cf8">Adzuna API keys</a>.<br>Without these, you'll get smart search links instead.
+    <div class="st">Adzuna API (optional — for local CA jobs)</div>
+    <div style="font-size:11px;color:#475569;margin-bottom:7px;line-height:1.4">
+      Free keys at <a href="https://developer.adzuna.com" target="_blank" style="color:#818cf8">developer.adzuna.com</a> add local Canadian in-person listings. Remote jobs load automatically.
     </div>
-    <div class="f">
-      <label>Adzuna App ID</label>
-      <input type="text" id="azId" placeholder="optional">
-    </div>
-    <div class="f">
-      <label>Adzuna App Key</label>
-      <input type="text" id="azKey" placeholder="optional">
-    </div>
+    <div class="f"><label>App ID</label><input type="text" id="azid" placeholder="optional"></div>
+    <div class="f"><label>App Key</label><input type="text" id="azkey" placeholder="optional"></div>
 
-    <button class="btn-go" id="btnGo" onclick="runSearch()">🔍 Find Canadian Jobs</button>
-    <div class="sample-lnk">No resume? <a onclick="loadSample()">Load a sample</a></div>
+    <button class="bgo" id="bgo" onclick="go()">🔍 Analyse My Chances</button>
+    <div class="sl">No resume? <a onclick="loadSample()">Load sample</a></div>
   </div>
 </aside>
 
-<main class="main">
-  <div id="welcome" class="welcome">
-    <div class="wi">🍁</div>
-    <h2>Find Canadian jobs, right now</h2>
-    <p>Paste your resume, fill in the form, and get AI-curated search links + live listings across Canada's top job boards.</p>
+<main class="mn">
+  <div id="wlc" class="wlc">
+    <div class="wlc-i">🍁</div>
+    <h2>Know your real chances — before applying</h2>
+    <p>Paste your resume. The AI reads every job listing, then tells you exactly which ones you're most likely to get an offer from — and why.</p>
     <div class="steps">
-      <div class="step"><span class="step-num">1</span><span>Click the <strong>API key banner</strong> and enter your Anthropic key — hit <em>Test &amp; Save</em> to verify it works.</span></div>
-      <div class="step"><span class="step-num">2</span><span>Paste your resume or upload a PDF.</span></div>
-      <div class="step"><span class="step-num">3</span><span>Hit <strong>Find Canadian Jobs</strong> — click any result to apply immediately.</span></div>
+      <div class="stp"><span class="sn">1</span><span>Click the red banner, enter your Anthropic key, hit <strong>Test &amp; Save</strong>.</span></div>
+      <div class="stp"><span class="sn">2</span><span>Paste your resume (or load the sample to try it out).</span></div>
+      <div class="stp"><span class="sn">3</span><span>Hit <strong>Analyse My Chances</strong> — jobs are ranked by offer likelihood with a full breakdown.</span></div>
     </div>
   </div>
-  <div id="loading" class="loading">
-    <div class="spin"></div>
-    <p>Finding your best matches…</p>
-    <small id="loadStep"></small>
+  <div id="ld" class="ld">
+    <div class="sp"></div>
+    <p>Analysing your chances…</p>
+    <small id="lstep"></small>
   </div>
-  <div id="results"></div>
+  <div id="res"></div>
 </main>
 </div>
 
@@ -290,515 +286,486 @@ textarea{resize:vertical;min-height:120px;line-height:1.5}
 if (typeof pdfjsLib !== 'undefined')
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-// ── Key management ─────────────────────────────────────────────────────────
-const KSTORE = 'jmca_key';
-const getKey = () => sessionStorage.getItem(KSTORE) || '';
+// ── Key ────────────────────────────────────────────────────────────────────
+const KS = 'jmca2_key';
+const gk = () => sessionStorage.getItem(KS) || '';
 
-function renderKeyBanner() {
-  const el = document.getElementById('keyBanner');
-  const k = getKey();
+function renderKbd() {
+  const k = gk(), el = document.getElementById('kbd');
   el.innerHTML = k
-    ? `<span class="key-ok-badge" onclick="openModal()">✓ API key verified &nbsp;(change)</span>`
-    : `<div class="key-banner">⚠️ <a onclick="openModal()">Set your Anthropic API key</a> to get started.<br>
-       <span style="font-size:11px;opacity:.8">Must come from console.anthropic.com, NOT your claude.ai password.</span></div>`;
+    ? `<span class="kbd-ok" onclick="openKm()">✓ API key verified &nbsp;(change)</span>`
+    : `<div class="kbd-warn">⚠️ <a onclick="openKm()">Set Anthropic API key</a> to start.<br>
+       <span style="opacity:.8">From console.anthropic.com — not your claude.ai password.</span></div>`;
 }
-
-function openModal() {
-  document.getElementById('keyInput').value = getKey();
-  setTestResult('', null);
-  document.getElementById('keyModal').classList.add('open');
-}
-function closeModal() { document.getElementById('keyModal').classList.remove('open'); }
-document.getElementById('keyModal').addEventListener('click', e => { if (e.target===e.currentTarget) closeModal(); });
-
-function setTestResult(msg, ok) {
-  const el = document.getElementById('keyTestResult');
+function openKm() { document.getElementById('ki').value = gk(); setKtr('',null); document.getElementById('km').classList.add('open'); }
+function closeKm() { document.getElementById('km').classList.remove('open'); }
+document.getElementById('km').addEventListener('click', e => { if(e.target===e.currentTarget) closeKm(); });
+function setKtr(msg, ok) {
+  const el = document.getElementById('ktr');
   el.textContent = msg;
-  el.style.color = ok === true ? '#10b981' : ok === false ? '#ef4444' : '#94a3b8';
+  el.style.color = ok===true?'#10b981':ok===false?'#ef4444':'#94a3b8';
 }
-
 async function testAndSave() {
-  const k = document.getElementById('keyInput').value.trim();
-  if (!k) { setTestResult('Please paste your API key above.', false); return; }
-  if (!k.startsWith('sk-ant-')) {
-    setTestResult('Key should start with "sk-ant-". Make sure you copied the full key from console.anthropic.com — not your Claude.ai password.', false);
-    return;
-  }
-
-  const btn = document.getElementById('testSaveBtn');
-  btn.disabled = true;
-  document.getElementById('testSpin').style.display = 'inline-block';
-  document.getElementById('testBtnLabel').textContent = 'Testing…';
-  setTestResult('Contacting Anthropic…', null);
-
+  const k = document.getElementById('ki').value.trim();
+  if (!k) { setKtr('Paste your API key above.', false); return; }
+  if (!k.startsWith('sk-ant-')) { setKtr('Key must start with "sk-ant-". Get it from console.anthropic.com — not your claude.ai password.', false); return; }
+  const btn = document.getElementById('tsb'); btn.disabled = true;
+  document.getElementById('mspin').style.display = 'inline-block';
+  document.getElementById('tslbl').textContent = 'Testing…';
+  setKtr('Contacting Anthropic…', null);
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': k,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'anthropic-dangerous-direct-browser-access': 'true',
-      },
-      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 5, messages: [{ role:'user', content:'Hi' }] }),
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'x-api-key':k,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:5,messages:[{role:'user',content:'Hi'}]}),
     });
-
-    if (res.ok) {
-      setTestResult('✓ Key works! Saving…', true);
-      sessionStorage.setItem(KSTORE, k);
-      setTimeout(() => { closeModal(); renderKeyBanner(); }, 700);
+    if (r.ok) {
+      setKtr('✓ Key works — saving!', true);
+      sessionStorage.setItem(KS, k);
+      setTimeout(() => { closeKm(); renderKbd(); }, 600);
       return;
     }
-
-    let body = {};
-    try { body = await res.json(); } catch (_) {}
-    const msg = body.error?.message || `HTTP ${res.status}`;
-
-    if (res.status === 401)
-      setTestResult(`❌ Invalid key: ${msg} — Double-check you copied the full key from console.anthropic.com.`, false);
-    else if (res.status === 403)
-      setTestResult(`❌ Access denied: ${msg} — Your key may not have permission for this model.`, false);
-    else if (res.status === 429)
-      setTestResult(`❌ Rate limit: ${msg} — Wait a moment then try again.`, false);
-    else if (res.status === 400 && msg.includes('model'))
-      setTestResult(`❌ Model not found. Check your account has access to Claude claude-sonnet-4-6.`, false);
-    else
-      setTestResult(`❌ Error ${res.status}: ${msg}`, false);
-
-  } catch (e) {
-    if (e instanceof TypeError)
-      setTestResult('❌ Network error — your browser blocked the request (CORS). Try opening the file via a local server, or use the Flask app.', false);
-    else
-      setTestResult(`❌ ${e.message}`, false);
+    let b={}; try{b=await r.json();}catch(_){}
+    const msg = b.error?.message || `HTTP ${r.status}`;
+    if (r.status===401) setKtr(`❌ Rejected: ${msg}. Double-check you copied the full key from console.anthropic.com.`, false);
+    else if (r.status===403) setKtr(`❌ Access denied: ${msg}`, false);
+    else if (r.status===429) setKtr(`❌ Rate limited — wait a moment then try again.`, false);
+    else setKtr(`❌ Error ${r.status}: ${msg}`, false);
+  } catch(e) {
+    if (e instanceof TypeError) setKtr('❌ Network/CORS error. Try running via: python3 -m http.server 8080', false);
+    else setKtr('❌ ' + e.message, false);
   } finally {
     btn.disabled = false;
-    document.getElementById('testSpin').style.display = 'none';
-    document.getElementById('testBtnLabel').textContent = 'Test & Save';
+    document.getElementById('mspin').style.display = 'none';
+    document.getElementById('tslbl').textContent = 'Test & Save';
   }
 }
 
-// ── File upload ────────────────────────────────────────────────────────────
-const dz = document.getElementById('dropzone');
-const fi = document.getElementById('fileInput');
-dz.addEventListener('click', () => fi.click());
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
-dz.addEventListener('dragleave', () => dz.classList.remove('over'));
-dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('over'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
-fi.addEventListener('change', () => { if(fi.files[0]) handleFile(fi.files[0]); });
-
-async function handleFile(f) {
-  const n = f.name.toLowerCase();
-  setFileStatus('Parsing…', null);
+// ── Tabs + upload ──────────────────────────────────────────────────────────
+document.querySelectorAll('.tab').forEach(b => {
+  b.addEventListener('click', () => {
+    const t = b.dataset.t;
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.tp').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById(t).classList.add('on');
+  });
+});
+const dz=document.getElementById('dz'), fi=document.getElementById('fi');
+dz.addEventListener('click',()=>fi.click());
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('ov');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('ov'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('ov');if(e.dataTransfer.files[0])hf(e.dataTransfer.files[0]);});
+fi.addEventListener('change',()=>{if(fi.files[0])hf(fi.files[0]);});
+async function hf(f) {
+  const n=f.name.toLowerCase(); sfs('Parsing…',null);
   try {
-    let text = '';
-    if (n.endsWith('.txt')) text = await f.text();
-    else if (n.endsWith('.pdf')) text = await parsePdf(f);
-    else { setFileStatus('Use PDF or TXT.', false); return; }
-    document.getElementById('resumeText').value = text.trim();
-    document.querySelector('[data-tab="pt"]').click();
-    setFileStatus(`✓ ${f.name} loaded`, true);
-  } catch(e) { setFileStatus('Parse failed: ' + e.message, false); }
+    let t='';
+    if(n.endsWith('.txt')) t=await f.text();
+    else if(n.endsWith('.pdf')) t=await parsePdf(f);
+    else{sfs('Use PDF or TXT.',false);return;}
+    document.getElementById('rt').value=t.trim();
+    document.querySelector('[data-t="pp"]').click();
+    sfs(`✓ ${f.name}`,true);
+  } catch(e){sfs('Failed: '+e.message,false);}
 }
-
-function setFileStatus(msg, ok) {
-  const el = document.getElementById('fileStatus');
-  el.textContent = msg; el.style.display = 'block';
-  el.style.color = ok === true ? '#10b981' : ok === false ? '#ef4444' : '#94a3b8';
-}
-
-async function parsePdf(f) {
-  if (!pdfjsLib) throw new Error('PDF.js not loaded');
-  const pdf = await pdfjsLib.getDocument({ data: await f.arrayBuffer() }).promise;
-  const pages = [];
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const c = await page.getTextContent();
-    pages.push(c.items.map(x=>x.str).join(' '));
-  }
+function sfs(m,ok){const el=document.getElementById('fs');el.textContent=m;el.style.display='block';el.style.color=ok===true?'#10b981':ok===false?'#ef4444':'#94a3b8';}
+async function parsePdf(f){
+  if(!pdfjsLib)throw new Error('PDF.js not loaded');
+  const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;
+  const pages=[];
+  for(let i=1;i<=pdf.numPages;i++){const p=await pdf.getPage(i);const c=await p.getTextContent();pages.push(c.items.map(x=>x.str).join(' '));}
   return pages.join('\n');
 }
 
-// Tabs
-document.querySelectorAll('.tab').forEach(b => {
-  b.addEventListener('click', () => {
-    const t = b.dataset.tab;
-    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-    document.querySelectorAll('.tp').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    document.getElementById(t).classList.add('active');
-  });
-});
-
-// Sample
-const SAMPLE = `Jane Smith | jane@email.com | linkedin.com/in/janesmith | Toronto, ON
+const SAMPLE=`Alex Chen | alex.chen@email.com | Toronto, ON | linkedin.com/in/alexchen
 
 EDUCATION
-B.S. Computer Science — University of Toronto, 2022 | GPA 3.8
+B.Sc. Computer Science — University of Waterloo, 2021 | GPA 3.6
 
 EXPERIENCE
-Software Engineer Intern — Shopify, Toronto (Summer 2021)
-• Built Ruby on Rails API endpoints serving 500k daily requests
-• Improved checkout performance by 28% via Redis caching
-• Wrote comprehensive RSpec test suite (97% coverage)
+Junior Software Developer — Loblaw Digital, Toronto (Jan 2022–Present)
+• Build and maintain React + Node.js features for Click & Collect platform (3M+ users)
+• Improved page load speed 35% through code splitting and lazy loading
+• Collaborate in agile teams; participate in code reviews and sprint planning
+• Set up GitHub Actions CI/CD pipelines reducing deploy time by 50%
 
-Junior Developer — TechStartup Inc., Toronto (Sep 2022–Present)
-• Full-stack development with React + Node.js + PostgreSQL
-• Integrated Stripe payments and deployed on AWS ECS
-• Mentored 2 co-op students
+Software Developer Co-op — RBC, Toronto (May–Aug 2020)
+• Built internal Python/Flask dashboard for compliance team tracking 200K daily transactions
+• Wrote SQL queries against Oracle DB and automated weekly Excel reports
 
 SKILLS
-Languages: Python, JavaScript/TypeScript, Ruby, SQL, Go (learning)
-Frameworks: React, Node.js, Rails, Flask, Express
-Cloud/Tools: AWS, Docker, Kubernetes, PostgreSQL, Redis, Git`;
+Languages: JavaScript, TypeScript, Python, SQL, Java (university)
+Frontend: React, Next.js, HTML/CSS, Tailwind
+Backend: Node.js, Express, Flask, REST APIs
+Tools: Git, Docker, AWS (S3, Lambda, basics), PostgreSQL, MongoDB
+Soft: Agile, code reviews, technical writing`;
 
-function loadSample() {
-  document.getElementById('resumeText').value = SAMPLE;
-  document.querySelector('[data-tab="pt"]').click();
-}
+function loadSample(){document.getElementById('rt').value=SAMPLE;document.querySelector('[data-t="pp"]').click();}
 
-// ── Claude API call ────────────────────────────────────────────────────────
-async function claude(prompt, system, maxTokens = 1024) {
-  const k = getKey();
-  if (!k) { openModal(); throw new Error('API key required'); }
-
-  const body = { model: 'claude-sonnet-4-6', max_tokens: maxTokens, messages: [{ role:'user', content: prompt }] };
-  if (system) body.system = system;
-
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': k,
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
-      'anthropic-dangerous-direct-browser-access': 'true',
-    },
-    body: JSON.stringify(body),
+// ── Claude ─────────────────────────────────────────────────────────────────
+async function callClaude(prompt,system,maxTokens=1024){
+  const k=gk();
+  if(!k){openKm();throw new Error('API key required');}
+  const body={model:'claude-sonnet-4-6',max_tokens:maxTokens,messages:[{role:'user',content:prompt}]};
+  if(system) body.system=system;
+  const r=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'x-api-key':k,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify(body),
   });
-
-  if (!res.ok) {
-    let body2 = {}; try { body2 = await res.json(); } catch(_){}
-    const msg = body2.error?.message || `HTTP ${res.status}`;
-    if (res.status === 401) throw new Error(`API key rejected by Anthropic: ${msg}`);
-    if (res.status === 429) throw new Error(`Rate limited: ${msg} — wait a moment and try again.`);
-    throw new Error(`Anthropic error ${res.status}: ${msg}`);
+  if(!r.ok){
+    let b={};try{b=await r.json();}catch(_){}
+    const msg=b.error?.message||`HTTP ${r.status}`;
+    if(r.status===401)throw new Error(`API key rejected: ${msg}. Re-enter your key via the banner.`);
+    if(r.status===429)throw new Error(`Rate limited: ${msg}`);
+    throw new Error(`Claude error ${r.status}: ${msg}`);
   }
-
-  const d = await res.json();
-  return d.content[0].text;
+  const d=await r.json();return d.content[0].text;
 }
-
-function parseJson(raw) {
-  let s = raw.trim();
-  if (s.includes('```')) { s = s.split('```')[1]; if (s.startsWith('json')) s=s.slice(4); s=s.split('```')[0]; }
+function pj(raw){
+  let s=raw.trim();
+  if(s.includes('```')){s=s.split('```')[1];if(s.startsWith('json'))s=s.slice(4);s=s.split('```')[0];}
   return JSON.parse(s.trim());
 }
 
-// ── Resume analysis ────────────────────────────────────────────────────────
-const CY = new Date().getFullYear();
+// ── Step 1: analyse resume ─────────────────────────────────────────────────
+const CY=new Date().getFullYear();
+const REMOTIVE_CATS=['software-dev','data','devops','product','design','qa','backend','frontend','mobile','finance','hr'];
 
-async function analyzeResume(resume, jobTitle, gradYear, visaReq, city, jobType) {
-  const exp = gradYear ? ` (${CY - parseInt(gradYear)} yrs since graduation)` : '';
-  const prompt = `Analyze this Canadian job seeker's resume.
+async function analyseResume(resume,jobTitle,gradYear,visaReq,city,jobType){
+  const exp=gradYear?` (${CY-parseInt(gradYear)} yrs since graduation)`:'';
+  const r=await callClaude(
+    `Analyse this Canadian job seeker's resume and return a JSON job search plan.
 
 RESUME:
-${resume.slice(0, 4500)}
+${resume.slice(0,4000)}
 
-CRITERIA:
-- Target role: ${jobTitle || 'infer best fit from resume'}
-- Graduation year: ${gradYear}${exp}
-- Location in Canada: ${city || 'anywhere in Canada'}
-- Job type: ${jobType || 'any'}
-- Needs visa/work permit sponsorship: ${visaReq ? 'Yes' : 'No'}
+PREFERENCES:
+- Target role: ${jobTitle||'infer from resume'}
+- Graduation: ${gradYear}${exp}
+- Location: ${city||'anywhere in Canada (including remote)'}
+- Job type: ${jobType||'any'}
+- Needs visa/work permit sponsorship: ${visaReq?'Yes':'No'}
 
 Return ONLY valid JSON:
 {
-  "candidate_summary": "2-3 sentences — background and value proposition",
-  "key_skills": ["skill1","skill2","skill3","skill4","skill5"],
+  "summary": "2-3 sentences on background and unique value",
+  "key_skills": ["s1","s2","s3","s4","s5"],
   "experience_years": <integer>,
-  "seniority_level": "<entry|junior|mid|senior|lead|manager|director>",
-  "search_query": "<3-5 word optimized search query, e.g. 'software engineer python react'>",
-  "visa_query_suffix": "<if visa needed, add 'visa sponsorship' else empty string>",
-  "alternative_titles": ["title1","title2"],
-  "top_companies_in_canada": ["company type or specific company relevant to this role in Canada"],
-  "strengths": ["strength1","strength2","strength3"],
-  "search_tips": "One Canada-specific job search tip for this candidate"
-}`;
-
-  const raw = await claude(prompt,
-    'You are a Canadian career advisor. Return valid JSON only — no markdown, no extra text.', 1024);
-  return parseJson(raw);
+  "seniority": "<entry|junior|mid|senior|lead|manager>",
+  "search_query": "<4-6 word optimised search phrase>",
+  "remotive_category": "<pick one: ${REMOTIVE_CATS.join('|')}>",
+  "alt_query": "<alternative 3-5 word query>",
+  "strengths": ["s1","s2","s3"],
+  "ca_tip": "One Canada-specific job search tip for this candidate"
+}`,
+    'You are a Canadian career advisor. Return valid JSON only.', 900
+  );
+  return pj(r);
 }
 
-// ── Adzuna Canada ──────────────────────────────────────────────────────────
-async function searchAdzuna(keywords, city, jobType, salMin, azId, azKey) {
-  const url = new URL('https://api.adzuna.com/v1/api/jobs/ca/search/1');
-  url.searchParams.set('app_id', azId);
-  url.searchParams.set('app_key', azKey);
-  url.searchParams.set('results_per_page', '15');
-  url.searchParams.set('what', keywords);
-  url.searchParams.set('sort_by', 'relevance');
-  if (city) url.searchParams.set('where', city);
-  if (jobType === 'full_time') url.searchParams.set('full_time', 1);
-  else if (jobType === 'part_time') url.searchParams.set('part_time', 1);
-  else if (jobType === 'contract') url.searchParams.set('contract', 1);
-  if (salMin) { try { url.searchParams.set('salary_min', parseInt(salMin)); } catch(_){} }
-
-  const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } });
-  if (!res.ok) throw new Error(`Adzuna error ${res.status}`);
-  const data = await res.json();
-  return (data.results || []).map(j => {
-    const smin = j.salary_min, smax = j.salary_max;
-    const salary = smin && smax ? `$${(smin/1000).toFixed(0)}k–$${(smax/1000).toFixed(0)}k` : smin ? `$${(smin/1000).toFixed(0)}k+` : null;
-    return {
-      id: String(j.id),
-      title: j.title || 'Untitled',
-      company: j.company?.display_name || 'Unknown',
-      location: j.location?.display_name || '',
-      salary,
-      description: (j.description || '').slice(0, 550),
-      url: j.redirect_url || '#',
-      posted: (j.created || '').slice(0, 10),
-      contract_time: j.contract_time || '',
-    };
-  });
+// ── Step 2: fetch jobs ─────────────────────────────────────────────────────
+async function fetchRemotive(category, query){
+  const url=`https://remotive.io/api/remote-jobs?category=${encodeURIComponent(category)}&search=${encodeURIComponent(query)}&limit=12`;
+  try {
+    const r=await fetch(url,{headers:{Accept:'application/json'}});
+    if(!r.ok)throw new Error(`Remotive ${r.status}`);
+    const d=await r.json();
+    return (d.jobs||[]).slice(0,12).map(j=>({
+      id:'r'+j.id,
+      title:j.title||'',
+      company:j.company_name||'',
+      location:'Remote',
+      salary:j.salary||null,
+      description:stripHtml(j.description||'').slice(0,700),
+      url:j.url||'#',
+      posted:(j.publication_date||'').slice(0,10),
+      source:'remote',
+      tags:(j.tags||[]).slice(0,4),
+    }));
+  } catch(e){ console.warn('Remotive fetch failed:',e); return []; }
 }
 
-// ── Score jobs ─────────────────────────────────────────────────────────────
-async function scoreJobs(jobs, analysis, visaReq) {
-  const lines = jobs.slice(0,15).map((j,i) =>
-    `${i+1}. [${j.title}] at [${j.company}], ${j.location}\n   ${j.description.slice(0,260)}`
-  ).join('\n\n');
+async function fetchAdzuna(query, city, jobType, salMin, azId, azKey){
+  const url=new URL('https://api.adzuna.com/v1/api/jobs/ca/search/1');
+  url.searchParams.set('app_id',azId);
+  url.searchParams.set('app_key',azKey);
+  url.searchParams.set('results_per_page','12');
+  url.searchParams.set('what',query);
+  url.searchParams.set('sort_by','relevance');
+  if(city&&city.toLowerCase()!=='remote') url.searchParams.set('where',city);
+  if(jobType==='full_time') url.searchParams.set('full_time',1);
+  else if(jobType==='contract') url.searchParams.set('contract',1);
+  if(salMin){try{url.searchParams.set('salary_min',parseInt(salMin));}catch(_){}}
+  try {
+    const r=await fetch(url.toString(),{headers:{Accept:'application/json'}});
+    if(!r.ok)throw new Error(`Adzuna ${r.status}`);
+    const d=await r.json();
+    return (d.results||[]).map(j=>{
+      const smin=j.salary_min,smax=j.salary_max;
+      const salary=smin&&smax?`$${Math.round(smin/1000)}k–$${Math.round(smax/1000)}k`:smin?`$${Math.round(smin/1000)}k+`:null;
+      return {
+        id:'a'+j.id,
+        title:j.title||'',
+        company:j.company?.display_name||'',
+        location:j.location?.display_name||'Canada',
+        salary,
+        description:(j.description||'').slice(0,700),
+        url:j.redirect_url||'#',
+        posted:(j.created||'').slice(0,10),
+        source:'ca',
+        tags:[],
+      };
+    });
+  } catch(e){ console.warn('Adzuna fetch failed:',e); return []; }
+}
 
-  const prompt = `Score each job's fit (0-100) for this candidate.
+function stripHtml(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent||'';}
 
-CANDIDATE: ${analysis.candidate_summary}
-Skills: ${analysis.key_skills.slice(0,7).join(', ')}
-Level: ${analysis.seniority_level} (${analysis.experience_years} yrs)
-Needs visa sponsorship: ${visaReq ? 'Yes' : 'No'}
+// ── Step 3: offer likelihood scoring ──────────────────────────────────────
+async function scoreOfferLikelihood(jobs, resume, analysis, visaReq){
+  // Build compact job summaries — include enough detail for Claude to assess requirements
+  const lines = jobs.map((j,i)=>
+    `JOB ${i+1}: ${j.title} at ${j.company} [${j.location}]\n${j.description.slice(0,450)}`
+  ).join('\n\n---\n\n');
 
-JOBS:
+  const prompt=`You are a senior recruiter at a Canadian tech company. Assess how likely this candidate is to receive a job OFFER (not just an interview) for each role.
+
+CANDIDATE RESUME:
+${resume.slice(0,2500)}
+
+CANDIDATE PROFILE:
+- Skills: ${analysis.key_skills.join(', ')}
+- Experience: ${analysis.experience_years} yrs, ${analysis.seniority} level
+- Needs visa/work permit sponsorship: ${visaReq?'Yes':'No'}
+
 ${lines}
 
-Return JSON only:
-{"matches":[{"job_number":1,"score":85,"reason":"one sentence","visa_note":"mentions sponsorship" or null}]}
+For each job provide a realistic "offer_likelihood" (0–100) based on:
+1. How many stated requirements the candidate meets
+2. Whether experience level matches (over/under-qualified both reduce score)
+3. Dealbreakers (e.g. required skills they lack, visa sponsorship not offered)
+4. How competitive this type of role typically is
 
-If visa needed and job doesn't mention it, reduce score by 10.`;
+Return ONLY valid JSON — be honest, not flattering:
+{
+  "assessments": [
+    {
+      "job_number": 1,
+      "offer_likelihood": 72,
+      "recommendation": "Apply",
+      "matching": ["specific requirement met 1", "specific requirement met 2"],
+      "gaps": ["specific gap 1", "specific gap 2"],
+      "edge": "one specific competitive advantage for this exact role",
+      "summary": "honest one-sentence overall assessment"
+    }
+  ]
+}
 
-  try {
-    const raw = await claude(prompt, null, 900);
-    const d = parseJson(raw);
-    const map = {};
-    (d.matches||[]).forEach(m => { map[m.job_number-1] = m; });
-    jobs.forEach((j,i) => {
-      const m = map[i]||{};
-      j.score = m.score ?? 50;
-      j.reason = m.reason || '';
-      j.visa_note = m.visa_note || null;
-    });
-    jobs.sort((a,b) => b.score - a.score);
-  } catch(e) {
-    console.warn('Scoring failed:', e);
-    jobs.forEach(j => { j.score = j.score ?? 50; j.reason = ''; j.visa_note = null; });
-  }
+recommendation must be exactly one of: "Apply Now" | "Apply with Cover Letter" | "Stretch Role" | "Skip"
+- "Apply Now": strong fit, 65%+ likelihood
+- "Apply with Cover Letter": decent fit but needs explanation, 45-64%
+- "Stretch Role": significant gaps but worth trying, 25-44%
+- "Skip": poor fit or dealbreaker present, <25%`;
+
+  const raw=await callClaude(prompt,null,1400);
+  const d=pj(raw);
+  const map={};
+  (d.assessments||[]).forEach(a=>{map[a.job_number-1]=a;});
+  jobs.forEach((j,i)=>{
+    const a=map[i]||{};
+    j.offer_likelihood=a.offer_likelihood??50;
+    j.recommendation=a.recommendation||'Apply';
+    j.matching=a.matching||[];
+    j.gaps=a.gaps||[];
+    j.edge=a.edge||'';
+    j.summary=a.summary||'';
+  });
+  // Sort by offer likelihood descending
+  jobs.sort((a,b)=>b.offer_likelihood-a.offer_likelihood);
   return jobs;
 }
 
-// ── Canadian job board URLs ────────────────────────────────────────────────
-const BOARDS = [
-  { name: 'Indeed Canada', emoji: '🔵', desc: "Canada's largest job board", color: '#2557a7',
-    url: (q, loc) => `https://ca.indeed.com/jobs?q=${enc(q)}&l=${enc(loc||'Canada')}` },
-  { name: 'LinkedIn Jobs', emoji: '🔗', desc: 'Professional network job listings', color: '#0a66c2',
-    url: (q, loc) => `https://www.linkedin.com/jobs/search/?keywords=${enc(q)}&location=${enc(loc||'Canada')}` },
-  { name: 'Job Bank', emoji: '🍁', desc: "Government of Canada's official job board", color: '#26374a',
-    url: (q, loc) => `https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=${enc(q)}&locationstring=${enc(loc||'Canada')}` },
-  { name: 'Workopolis', emoji: '🟠', desc: 'Major Canadian job search site', color: '#e05a24',
-    url: (q, loc) => `https://www.workopolis.com/en/jobs-search?q=${enc(q)}&l=${enc(loc||'')}` },
-  { name: 'Monster Canada', emoji: '🟢', desc: 'Global board with strong CA coverage', color: '#6b0aa5',
-    url: (q, loc) => `https://www.monster.ca/jobs/search/?q=${enc(q)}&where=${enc(loc||'Canada')}` },
-  { name: 'Glassdoor CA', emoji: '⭐', desc: 'Jobs + company reviews & salaries', color: '#0caa41',
-    url: (q, loc) => `https://www.glassdoor.ca/Job/canada-${enc(q.replace(/\s+/g,'-'))}-jobs-SRCH_IL.0,6_IN3.htm` },
-];
-
-function enc(s) { return encodeURIComponent(s||''); }
-
 // ── Main flow ──────────────────────────────────────────────────────────────
-async function runSearch() {
-  const resume = document.getElementById('resumeText').value.trim();
-  if (!resume) { alert('Please paste your resume or upload a file.'); return; }
-  if (!getKey()) { openModal(); return; }
-
-  showLoading();
-
-  try {
-    step('Analyzing your resume with Claude AI…');
-    const analysis = await analyzeResume(
+async function go(){
+  const resume=document.getElementById('rt').value.trim();
+  if(!resume){alert('Please paste your resume or upload a file first.');return;}
+  if(!gk()){openKm();return;}
+  showLd();
+  try{
+    lstep('Step 1/3 — Reading your resume with Claude AI…');
+    const analysis=await analyseResume(
       resume,
-      document.getElementById('jobTitle').value.trim(),
-      document.getElementById('gradYear').value,
-      document.getElementById('visaReq').checked,
+      document.getElementById('jt').value.trim(),
+      document.getElementById('gy').value,
+      document.getElementById('vr').checked,
       document.getElementById('city').value.trim(),
-      document.getElementById('jobType').value,
+      document.getElementById('jtype').value,
     );
 
-    const visaReq = document.getElementById('visaReq').checked;
-    const city = document.getElementById('city').value.trim();
-    const azId = document.getElementById('azId').value.trim();
-    const azKey = document.getElementById('azKey').value.trim();
+    lstep('Step 2/3 — Fetching live job listings…');
+    const azId=document.getElementById('azid').value.trim();
+    const azKey=document.getElementById('azkey').value.trim();
+    const visaReq=document.getElementById('vr').checked;
 
-    let jobs = [], jobsWarn = null;
+    // Fetch from both sources in parallel
+    const [remotiveJobs, adzunaJobs] = await Promise.all([
+      fetchRemotive(analysis.remotive_category, analysis.search_query),
+      (azId&&azKey) ? fetchAdzuna(
+        analysis.search_query,
+        document.getElementById('city').value.trim(),
+        document.getElementById('jtype').value,
+        document.getElementById('sal').value,
+        azId, azKey
+      ) : Promise.resolve([]),
+    ]);
 
-    if (azId && azKey) {
-      step('Fetching live Canadian listings from Adzuna…');
-      try {
-        const q = analysis.search_query + (analysis.visa_query_suffix ? ' ' + analysis.visa_query_suffix : '');
-        jobs = await searchAdzuna(q, city, document.getElementById('jobType').value, document.getElementById('salMin').value, azId, azKey);
-        if (jobs.length < 5 && analysis.alternative_titles?.length) {
-          try {
-            const extra = await searchAdzuna(analysis.alternative_titles[0], city, '', '', azId, azKey);
-            const seen = new Set(jobs.map(j=>j.id));
-            jobs = jobs.concat(extra.filter(j=>!seen.has(j.id)));
-          } catch(_){}
-        }
-        if (jobs.length) {
-          step('Scoring matches with Claude AI…');
-          jobs = await scoreJobs(jobs, analysis, visaReq);
-        }
-      } catch(e) {
-        jobsWarn = `Adzuna search failed: ${e.message}`;
-      }
+    // Merge, deduplicate, cap at 15
+    let jobs=[...adzunaJobs, ...remotiveJobs].slice(0,15);
+
+    if(jobs.length===0){
+      render(analysis,[],null,visaReq,true);
+      return;
     }
 
-    renderResults(analysis, jobs, jobsWarn, city, visaReq);
-  } catch(e) {
+    lstep(`Step 3/3 — Claude is scoring your offer likelihood for ${jobs.length} listings…`);
+    jobs=await scoreOfferLikelihood(jobs,resume,analysis,visaReq);
+
+    render(analysis,jobs,null,visaReq,false);
+  } catch(e){
     showErr(e.message);
   }
 }
 
-// ── State ──────────────────────────────────────────────────────────────────
-const $ = id => document.getElementById(id);
-
-function showLoading() {
-  $('welcome').style.display = 'none';
-  $('loading').style.display = 'flex';
-  $('results').innerHTML = '';
-  $('btnGo').disabled = true;
-  $('btnGo').innerHTML = '<span class="spin" style="width:14px;height:14px;border-width:2px"></span> Searching…';
+// ── UI helpers ─────────────────────────────────────────────────────────────
+const $=id=>document.getElementById(id);
+function showLd(){
+  $('wlc').style.display='none';
+  $('ld').style.display='flex';
+  $('res').innerHTML='';
+  $('bgo').disabled=true;
+  $('bgo').innerHTML='<span class="sp" style="width:13px;height:13px;border-width:2px"></span> Analysing…';
 }
-
-function step(msg) { $('loadStep').textContent = msg; }
-
-function stopLoading() {
-  $('loading').style.display = 'none';
-  $('btnGo').disabled = false;
-  $('btnGo').innerHTML = '🔍 Find Canadian Jobs';
+function lstep(m){$('lstep').textContent=m;}
+function stopLd(){
+  $('ld').style.display='none';
+  $('bgo').disabled=false;
+  $('bgo').innerHTML='🔍 Analyse My Chances';
 }
-
-function showErr(msg) {
-  stopLoading();
-  $('results').innerHTML = `<div class="err">⚠️ ${esc(msg)}</div>`;
+function showErr(msg){
+  stopLd();
+  $('res').innerHTML=`<div class="err">⚠️ ${esc(msg)}</div>`;
 }
 
 // ── Render ─────────────────────────────────────────────────────────────────
-function renderResults(analysis, jobs, jobsWarn, city, visaReq) {
-  stopLoading();
-  const q = analysis.search_query || 'jobs';
-  const loc = city || 'Canada';
-  let html = '';
+function render(analysis,jobs,warn,visaReq,noJobs){
+  stopLd();
+  let html='';
 
-  // Analysis card
-  const lc = ['senior','lead','manager','director'].includes(analysis.seniority_level) ? 'bg' : 'bl';
-  const skills = (analysis.key_skills||[]).map(s=>`<span class="sk">${esc(s)}</span>`).join('');
-  html += `<div class="card analysis-card">
+  // Profile summary
+  const lc=['senior','lead','manager','director'].includes(analysis.seniority)?'bg':'bl';
+  const skls=(analysis.key_skills||[]).map(s=>`<span class="sk">${esc(s)}</span>`).join('');
+  html+=`<div class="card pc">
     <div class="ct">👤 Your Profile</div>
-    <div class="csub">${esc(analysis.candidate_summary||'')}</div>
-    <div class="brow">
-      <span class="badge ${lc}">${cap(analysis.seniority_level||'mid')} Level</span>
-      <span class="badge bg">${analysis.experience_years??'?'} yrs exp</span>
+    <div class="cs">${esc(analysis.summary||'')}</div>
+    <div class="br">
+      <span class="bx ${lc}">${cap(analysis.seniority||'mid')} Level</span>
+      <span class="bx bg">${analysis.experience_years??'?'} yrs experience</span>
     </div>
-    <div class="skills">${skills}</div>
-    ${analysis.search_tips?`<div class="tip"><strong>💡 Canada tip</strong>${esc(analysis.search_tips)}</div>`:''}
+    <div class="skl">${skls}</div>
+    ${analysis.ca_tip?`<div class="tip"><strong>💡 Canada tip</strong>${esc(analysis.ca_tip)}</div>`:''}
   </div>`;
 
-  // Job board links
-  const visaSuffix = visaReq ? ' visa sponsorship' : '';
-  const fullQ = q + visaSuffix;
-  html += `<div class="sec-hdr">
-    <div class="sec-hdr-title">🍁 Apply Now on Canadian Job Boards</div>
-    <div class="sec-hdr-sub">Click any to open live listings instantly</div>
-  </div>
-  <div class="boards-grid">`;
-
-  BOARDS.forEach(b => {
-    const link = b.url(fullQ, loc);
-    html += `<a class="board-card" href="${esc(link)}" target="_blank" rel="noopener">
-      <div class="board-top">
-        <span class="board-logo">${b.emoji}</span>
-        <span class="board-name">${b.name}</span>
-      </div>
-      <div class="board-desc">${b.desc}</div>
-      <div class="board-kw">🔍 "${esc(fullQ)}" · ${esc(loc)}</div>
-      <div class="board-apply">Open listings ↗</div>
-    </a>`;
-  });
-  html += '</div>';
-
-  // Adzuna live listings (if available)
-  if (jobsWarn) html += `<div class="warn">⚠️ ${esc(jobsWarn)}</div>`;
-
-  if (jobs.length) {
-    html += `<div class="sec-hdr">
-      <div class="sec-hdr-title">⚡ Live Listings from Adzuna CA</div>
-      <div class="sec-hdr-sub">${jobs.length} results · sorted by AI match</div>
-    </div><div class="jobs">`;
-    jobs.forEach(j => { html += jobCard(j); });
-    html += '</div>';
-  } else if (!jobsWarn) {
-    html += `<div class="sec-hdr"><div class="sec-hdr-title">⚡ Live Listings</div></div>
-    <div class="card empty" style="padding:32px 20px">
-      <div class="empty-i">📋</div>
-      <h3>Add Adzuna API keys for inline listings</h3>
-      <p>Free keys from <strong>developer.adzuna.com</strong> unlock real-time job results inside this page.<br>
-      The board links above already work without them.</p>
+  if(noJobs||jobs.length===0){
+    html+=`<div class="card empty">
+      <div class="empty-i">📭</div>
+      <h3>No listings fetched</h3>
+      <p>Remotive returned no results for this category. Try a different job title, or add free Adzuna API keys in the sidebar for local Canadian listings.</p>
     </div>`;
+    $('res').innerHTML=html;$('res').scrollIntoView({behavior:'smooth',block:'start'});return;
   }
 
-  $('results').innerHTML = html;
-  $('results').scrollIntoView({ behavior:'smooth', block:'start' });
+  const hasRemote=jobs.some(j=>j.source==='remote');
+  const hasCa=jobs.some(j=>j.source==='ca');
+  const srcNote=hasRemote&&hasCa?'Remote + Adzuna CA listings':hasRemote?'Remote listings (add Adzuna keys for local CA jobs)':'Adzuna CA listings';
+
+  html+=`<div class="rh">
+    <div class="rht">📊 Offer Likelihood Ranking</div>
+    <div class="rhs">${jobs.length} jobs analysed · ${srcNote}</div>
+  </div>`;
+
+  jobs.forEach((j,rank)=>{html+=jobCard(j,rank+1);});
+
+  $('res').innerHTML=html;
+  $('res').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function jobCard(j) {
-  const s = j.score ?? 50;
-  const mc = s>=75?'mh':s>=50?'mm':'ml';
-  const meta = [];
-  if (j.location) meta.push(`📍 ${esc(j.location)}`);
-  if (j.salary) meta.push(`💰 ${esc(j.salary)}`);
-  if (j.contract_time) meta.push(`🕐 ${esc(cap(j.contract_time.replace('_',' ')))}`);
-  if (j.posted) meta.push(`📅 ${esc(j.posted)}`);
-  return `<div class="card jcard">
-    <div class="jtop">
-      <div class="jinfo">
-        <div class="jtitle">${esc(j.title)}</div>
-        <div class="jco">${esc(j.company)}</div>
+function jobCard(j,rank){
+  const ol=j.offer_likelihood??50;
+  const olClass=ol>=65?'ol-high':ol>=40?'ol-mid':'ol-low';
+  const recMap={
+    'Apply Now':'rec-apply',
+    'Apply with Cover Letter':'rec-cover',
+    'Stretch Role':'rec-stretch',
+    'Skip':'rec-skip',
+  };
+  const recIcon={'Apply Now':'✅','Apply with Cover Letter':'📝','Stretch Role':'🎯','Skip':'⏭'};
+  const recCls=recMap[j.recommendation]||'rec-apply';
+  const recIco=recIcon[j.recommendation]||'✅';
+
+  const srcBadge=j.source==='remote'
+    ?`<span class="src-badge src-remote">🌐 Remote</span>`
+    :`<span class="src-badge src-ca">🍁 Canada</span>`;
+
+  const meta=[];
+  if(j.location) meta.push(`📍 ${esc(j.location)}`);
+  if(j.salary) meta.push(`💰 ${esc(j.salary)}`);
+  if(j.posted) meta.push(`📅 ${esc(j.posted)}`);
+
+  const matching=(j.matching||[]).slice(0,3).join(', ');
+  const gaps=(j.gaps||[]).slice(0,2).join(', ');
+
+  return `<div class="card jc">
+    <div style="position:absolute;top:16px;left:16px;font-size:11px;color:#94a3b8;font-weight:600">#${rank}</div>
+    <div style="padding-left:28px">
+    <div class="jc-top">
+      <div class="jc-left">
+        <div class="jc-title">${esc(j.title)}</div>
+        <div class="jc-co">${esc(j.company)} ${srcBadge}</div>
       </div>
-      <div class="mscore ${mc}">${s}<span class="sl">MATCH</span></div>
+      <div class="ol-ring">
+        <div class="ol-circle ${olClass}">
+          <span class="ol-pct">${ol}%</span>
+          <span class="ol-lbl">OFFER</span>
+        </div>
+      </div>
     </div>
-    ${meta.length?`<div class="jmeta">${meta.map(m=>`<span>${m}</span>`).join('')}</div>`:''}
-    ${j.description?`<div class="jdesc">${esc(j.description)}</div>`:''}
-    <div class="jfoot">
-      <div style="display:flex;gap:5px;flex-wrap:wrap;flex:1;min-width:0">
-        ${j.reason?`<span class="mreason">✓ ${esc(j.reason)}</span>`:''}
-        ${j.visa_note?`<span class="vnote">🛂 ${esc(j.visa_note)}</span>`:''}
-      </div>
-      <a href="${safeUrl(j.url)}" target="_blank" rel="noopener" class="btn-apply">Apply ↗</a>
+
+    <span class="rec ${recCls}">${recIco} ${esc(j.recommendation)}</span>
+
+    <div class="breakdown">
+      ${matching?`<div class="bk-row"><span class="bk-icon">✅</span><span class="bk-label">You have</span><span class="bk-val green">${esc(matching)}</span></div>`:''}
+      ${gaps?`<div class="bk-row"><span class="bk-icon">❌</span><span class="bk-label">Gaps</span><span class="bk-val red">${esc(gaps)}</span></div>`:''}
+      ${j.edge?`<div class="bk-row"><span class="bk-icon">💡</span><span class="bk-label">Your edge</span><span class="bk-val amber">${esc(j.edge)}</span></div>`:''}
+    </div>
+
+    ${meta.length?`<div class="jc-meta">${meta.map(m=>`<span>${m}</span>`).join('')}</div>`:''}
+
+    <div class="jc-foot">
+      <div class="jc-sum">${esc(j.summary)}</div>
+      <a href="${safeUrl(j.url)}" target="_blank" rel="noopener" class="btn-ap">Apply ↗</a>
+    </div>
     </div>
   </div>`;
 }
 
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
-function safeUrl(s){return /^https?:\/\//i.test(s)?esc(s):'#'}
-function cap(s){return String(s).replace(/\b\w/g,c=>c.toUpperCase())}
+// ── Utilities ──────────────────────────────────────────────────────────────
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function safeUrl(s){return /^https?:\/\//i.test(s)?esc(s):'#';}
+function cap(s){return String(s).replace(/\b\w/g,c=>c.toUpperCase());}
 
-renderKeyBanner();
+renderKbd();
 </script>
 </body>
 </html>
