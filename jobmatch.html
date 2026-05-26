@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobMatch AI</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#6366f1;--primary-dark:#4f46e5;--primary-light:#e0e7ff;
+  --success:#10b981;--warning:#f59e0b;--danger:#ef4444;
+  --bg:#f1f5f9;--sidebar:#1e293b;--card:#fff;--text:#1e293b;
+  --muted:#64748b;--border:#e2e8f0;--r:12px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+  --sw:380px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex}
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
+.sidebar{width:var(--sw);min-width:var(--sw);background:var(--sidebar);color:#cbd5e1;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10}
+.sidebar-header{padding:22px 24px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:3px}
+.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.logo-text{font-size:19px;font-weight:700;color:#f1f5f9;letter-spacing:-.3px}
+.tagline{font-size:11px;color:#475569;margin-left:44px}
+
+/* API key banner */
+.key-banner{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:10px 12px;margin:14px 24px 0;font-size:12px;color:#a5b4fc}
+.key-banner a{color:#c7d2fe;text-decoration:underline;cursor:pointer}
+.key-set-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);border-radius:20px;padding:3px 10px;font-size:11px;color:#6ee7b7;cursor:pointer}
+
+.sidebar-body{padding:16px 24px 32px;display:flex;flex-direction:column;gap:0}
+.sec-title{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#475569;margin-bottom:8px}
+.form-section{margin-bottom:18px}
+label{display:block;font-size:12px;font-weight:500;color:#94a3b8;margin-bottom:3px}
+input,select,textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#e2e8f0;font-size:13px;padding:7px 11px;outline:none;font-family:inherit;transition:border-color .15s,background .15s}
+input::placeholder,textarea::placeholder{color:#475569}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);background:rgba(99,102,241,.1)}
+select option{background:#1e293b;color:#e2e8f0}
+textarea{resize:vertical;min-height:130px;line-height:1.5}
+.field{margin-bottom:10px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* Tabs */
+.resume-tabs{display:flex;gap:6px;margin-bottom:8px}
+.tab-btn{flex:1;padding:5px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:transparent;color:#64748b;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;width:auto}
+.tab-btn.active{background:rgba(99,102,241,.2);border-color:var(--primary);color:#a5b4fc}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* Upload */
+.upload-area{border:2px dashed rgba(255,255,255,.12);border-radius:8px;padding:22px 14px;text-align:center;cursor:pointer;transition:all .15s;background:rgba(255,255,255,.03)}
+.upload-area:hover,.upload-area.drag-over{border-color:var(--primary);background:rgba(99,102,241,.08)}
+.upload-area input[type=file]{display:none}
+.upload-icon{font-size:26px;margin-bottom:5px}
+.upload-label{font-size:12px;color:#64748b;line-height:1.4}
+.upload-label strong{color:#94a3b8}
+
+/* Checkbox */
+.cb-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.cb-row input[type=checkbox]{width:15px;height:15px;min-width:15px;accent-color:var(--primary);cursor:pointer;padding:0}
+.cb-row label{margin:0;font-size:13px;color:#94a3b8;cursor:pointer}
+
+/* Button */
+.btn-search{width:100%;padding:11px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-search:hover{opacity:.92;transform:translateY(-1px)}
+.btn-search:active{transform:translateY(0)}
+.btn-search:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.sample-link{text-align:center;margin-top:8px;font-size:11px;color:#475569}
+.sample-link a{color:#818cf8;text-decoration:none;cursor:pointer}
+.sample-link a:hover{text-decoration:underline}
+
+/* ── Main ─────────────────────────────────────────────────────────────────── */
+.main{margin-left:var(--sw);flex:1;padding:32px;display:flex;flex-direction:column;min-height:100vh}
+
+/* Welcome */
+.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;color:#94a3b8}
+.welcome-icon{font-size:60px;opacity:.35}
+.welcome h2{font-size:21px;font-weight:600;color:#64748b}
+.welcome p{font-size:13px;max-width:360px;line-height:1.6}
+.welcome .hint{font-size:11px;color:#94a3b8;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 16px;margin-top:4px;text-align:left;max-width:360px}
+.welcome .hint strong{display:block;margin-bottom:4px;color:#64748b}
+
+/* Loading */
+.loading{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.spinner{width:38px;height:38px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;color:var(--muted);text-align:center}
+.loading-step{font-size:12px;color:#94a3b8}
+
+/* Analysis card */
+.analysis-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:22px;margin-bottom:22px;border:1px solid var(--border)}
+.analysis-title{font-size:15px;font-weight:700;margin-bottom:10px}
+.analysis-summary{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.badge-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.badge-level{background:var(--primary-light);color:var(--primary-dark)}
+.badge-exp{background:#d1fae5;color:#065f46}
+.skills-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.skill-tag{background:#f1f5f9;color:#475569;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;border:1px solid #e2e8f0}
+.tip-box{background:linear-gradient(135deg,#ede9fe,#e0e7ff);border-radius:8px;padding:11px 13px;font-size:12px;color:#4338ca;line-height:1.5;border-left:3px solid var(--primary)}
+.tip-box strong{display:block;margin-bottom:2px}
+
+/* Results header */
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:6px}
+.results-title{font-size:15px;font-weight:700}
+.results-count{font-size:12px;color:var(--muted)}
+
+/* Job cards */
+.jobs-list{display:flex;flex-direction:column;gap:11px}
+.job-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;border:1px solid var(--border);display:flex;flex-direction:column;gap:9px;transition:box-shadow .15s,transform .1s}
+.job-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);transform:translateY(-1px)}
+.job-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.job-info{flex:1;min-width:0}
+.job-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.job-company{font-size:12px;color:var(--muted)}
+.match-badge{flex-shrink:0;width:50px;height:50px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:14px;font-weight:800;line-height:1}
+.score-label{font-size:7px;font-weight:600;margin-top:1px;opacity:.7}
+.match-high{background:#d1fae5;color:#065f46}
+.match-mid{background:#fef3c7;color:#92400e}
+.match-low{background:#fee2e2;color:#991b1b}
+.job-meta{display:flex;flex-wrap:wrap;gap:9px;font-size:11px;color:var(--muted)}
+.job-desc{font-size:12px;color:#64748b;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.job-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px}
+.match-reason{font-size:11px;color:var(--primary);background:var(--primary-light);padding:3px 9px;border-radius:20px;flex:1;min-width:0}
+.visa-note{font-size:11px;color:#065f46;background:#d1fae5;padding:3px 9px;border-radius:20px}
+.btn-apply{flex-shrink:0;padding:5px 14px;background:var(--primary);color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:3px;transition:background .15s}
+.btn-apply:hover{background:var(--primary-dark)}
+
+/* Error / empty */
+.error-box{background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:16px;color:#991b1b;font-size:13px;line-height:1.5}
+.warn-box{background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:12px 14px;font-size:12px;color:#92400e;margin-bottom:18px;line-height:1.5}
+.empty-state{text-align:center;padding:44px 24px;color:var(--muted)}
+.empty-state-icon{font-size:38px;margin-bottom:10px}
+.empty-state h3{font-size:15px;font-weight:600;margin-bottom:5px;color:#475569}
+.empty-state p{font-size:13px;line-height:1.6}
+
+/* Modal overlay for API key */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#1e293b;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:28px;width:90%;max-width:440px;color:#e2e8f0}
+.modal h2{font-size:18px;font-weight:700;margin-bottom:6px;color:#f1f5f9}
+.modal p{font-size:13px;color:#94a3b8;margin-bottom:18px;line-height:1.5}
+.modal input{margin-bottom:12px}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end}
+.btn-secondary{padding:8px 16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#94a3b8;border-radius:8px;font-size:13px;cursor:pointer}
+.btn-primary{padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+
+@media(max-width:768px){
+  .sidebar{position:relative;width:100%;min-width:0}
+  .main{margin-left:0;padding:18px}
+  body{flex-direction:column}
+  .field-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- API Key Modal -->
+<div class="modal-overlay" id="keyModal">
+  <div class="modal">
+    <h2>🔑 Enter your Anthropic API key</h2>
+    <p>Required for AI resume analysis. Your key is stored in this browser session only and never sent anywhere except Anthropic's API.<br><br>
+    Get a free key at <strong>console.anthropic.com</strong></p>
+    <input type="password" id="modalKeyInput" placeholder="sk-ant-api03-...">
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeKeyModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveKeyFromModal()">Save &amp; Continue</button>
+    </div>
+  </div>
+</div>
+
+<div class="layout" style="display:flex;width:100%">
+
+<!-- ── Sidebar ──────────────────────────────────────────────────────────── -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">
+      <div class="logo-icon">🎯</div>
+      <span class="logo-text">JobMatch AI</span>
+    </div>
+    <div class="tagline">AI-powered job search &amp; matching</div>
+  </div>
+
+  <div id="keyBanner" style="margin:12px 24px 0"></div>
+
+  <div class="sidebar-body">
+
+    <!-- Resume -->
+    <div class="form-section">
+      <div class="sec-title">Your Resume</div>
+      <div class="resume-tabs">
+        <button type="button" class="tab-btn active" data-tab="pastePanel">Paste Text</button>
+        <button type="button" class="tab-btn" data-tab="uploadPanel">Upload File</button>
+      </div>
+      <div id="pastePanel" class="tab-panel active">
+        <textarea id="resumeText" rows="8" placeholder="Paste your resume here…&#10;&#10;Include skills, experience, education for best results."></textarea>
+      </div>
+      <div id="uploadPanel" class="tab-panel">
+        <div class="upload-area" id="uploadArea">
+          <input type="file" id="resumeFile" accept=".pdf,.txt">
+          <div class="upload-icon">📄</div>
+          <div class="upload-label"><strong>Click to upload</strong> or drag &amp; drop<br>PDF or TXT</div>
+          <div id="uploadStatus" style="display:none;font-size:11px;margin-top:6px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Job Preferences -->
+    <div class="form-section">
+      <div class="sec-title">Job Preferences</div>
+      <div class="field">
+        <label for="jobTitle">Target job title</label>
+        <input type="text" id="jobTitle" placeholder="e.g. Software Engineer, Data Analyst…">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="gradYear">Graduation year</label>
+          <input type="number" id="gradYear" min="1970" max="2026" placeholder="2022">
+        </div>
+        <div class="field">
+          <label for="jobType">Job type</label>
+          <select id="jobType">
+            <option value="any">Any</option>
+            <option value="full_time">Full-time</option>
+            <option value="part_time">Part-time</option>
+            <option value="contract">Contract</option>
+            <option value="internship">Internship</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location -->
+    <div class="form-section">
+      <div class="sec-title">Location</div>
+      <div class="field">
+        <label for="country">Country / Region</label>
+        <select id="country">
+          <option>United States</option><option>United Kingdom</option>
+          <option>Canada</option><option>Australia</option>
+          <option>Germany</option><option>France</option>
+          <option>Netherlands</option><option>Singapore</option>
+          <option>India</option><option>Remote / Worldwide</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="city">City (optional)</label>
+        <input type="text" id="city" placeholder="e.g. New York, San Francisco…">
+      </div>
+    </div>
+
+    <!-- Requirements -->
+    <div class="form-section">
+      <div class="sec-title">Requirements</div>
+      <div class="cb-row">
+        <input type="checkbox" id="visaRequired">
+        <label for="visaRequired">I need visa sponsorship</label>
+      </div>
+      <div class="field">
+        <label for="salaryMin">Min. salary expectation (USD, optional)</label>
+        <input type="number" id="salaryMin" min="0" step="5000" placeholder="e.g. 80000">
+      </div>
+    </div>
+
+    <button id="btnSearch" class="btn-search" onclick="runSearch()">🔍 Search Jobs</button>
+    <div class="sample-link">No resume? <a onclick="loadSample()">Load a sample</a></div>
+
+  </div>
+</aside>
+
+<!-- ── Main ─────────────────────────────────────────────────────────────── -->
+<main class="main">
+  <div id="welcome" class="welcome">
+    <div class="welcome-icon">🎯</div>
+    <h2>Find your next opportunity</h2>
+    <p>Paste your resume, answer a few questions, and let AI match you with real job listings — no install required.</p>
+    <div class="hint">
+      <strong>Quick start:</strong>
+      1. Click <em>"Set API key"</em> in the sidebar and enter your Anthropic key<br>
+      2. Paste your resume (or use the sample)<br>
+      3. Fill in your preferences and hit <strong>Search Jobs</strong>
+    </div>
+  </div>
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">Finding your best matches…<br>
+      <span id="loadingStep" class="loading-step"></span>
+    </div>
+  </div>
+  <div id="results" class="results"></div>
+</main>
+
+</div><!-- end .layout -->
+
+<script>
+// ── pdf.js setup ───────────────────────────────────────────────────────────
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+// ── API key management ─────────────────────────────────────────────────────
+const KEY_STORE = 'jm_anthropic_key';
+
+function getApiKey() { return sessionStorage.getItem(KEY_STORE) || ''; }
+
+function renderKeyBanner() {
+  const key = getApiKey();
+  const el = document.getElementById('keyBanner');
+  if (key) {
+    el.innerHTML = `<span class="key-set-badge" onclick="openKeyModal()">✓ API key set &nbsp;(change)</span>`;
+  } else {
+    el.innerHTML = `<div class="key-banner">
+      ⚠️ <a onclick="openKeyModal()">Set your Anthropic API key</a> to enable AI analysis.
+    </div>`;
+  }
+}
+
+function openKeyModal() {
+  document.getElementById('modalKeyInput').value = getApiKey();
+  document.getElementById('keyModal').classList.add('open');
+}
+
+function closeKeyModal() { document.getElementById('keyModal').classList.remove('open'); }
+
+function saveKeyFromModal() {
+  const k = document.getElementById('modalKeyInput').value.trim();
+  if (!k) { alert('Please enter an API key.'); return; }
+  sessionStorage.setItem(KEY_STORE, k);
+  closeKeyModal();
+  renderKeyBanner();
+}
+
+// Close modal on backdrop click
+document.getElementById('keyModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeKeyModal();
+});
+
+// ── Tab switching ──────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(target).classList.add('active');
+  });
+});
+
+// ── File upload ────────────────────────────────────────────────────────────
+const uploadArea = document.getElementById('uploadArea');
+const fileInput  = document.getElementById('resumeFile');
+const uploadStatus = document.getElementById('uploadStatus');
+
+uploadArea.addEventListener('click', () => fileInput.click());
+uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+uploadArea.addEventListener('drop', e => {
+  e.preventDefault(); uploadArea.classList.remove('drag-over');
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+async function handleFile(file) {
+  const name = file.name.toLowerCase();
+  setUploadStatus('Parsing…', false);
+  try {
+    let text = '';
+    if (name.endsWith('.txt')) {
+      text = await file.text();
+    } else if (name.endsWith('.pdf')) {
+      text = await parsePdf(file);
+    } else {
+      setUploadStatus('Use PDF or TXT. For DOCX, save as PDF first.', true); return;
+    }
+    document.getElementById('resumeText').value = text.trim();
+    document.querySelector('[data-tab="pastePanel"]').click();
+    setUploadStatus(`✓ ${file.name} loaded`, false);
+  } catch (e) {
+    setUploadStatus('Failed to parse: ' + e.message, true);
+  }
+}
+
+function setUploadStatus(msg, isErr) {
+  uploadStatus.textContent = msg;
+  uploadStatus.style.color = isErr ? '#ef4444' : '#10b981';
+  uploadStatus.style.display = 'block';
+}
+
+async function parsePdf(file) {
+  if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js not loaded');
+  const buf = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+  const pages = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    pages.push(content.items.map(it => it.str).join(' '));
+  }
+  return pages.join('\n');
+}
+
+// ── Sample resume ──────────────────────────────────────────────────────────
+const SAMPLE = `Jane Smith
+jane.smith@email.com | linkedin.com/in/janesmith | github.com/janesmith
+San Francisco, CA
+
+EDUCATION
+B.S. Computer Science, UC Berkeley, 2022 — GPA 3.7/4.0
+
+EXPERIENCE
+Software Engineer Intern — Google (Summer 2021)
+• Built Python data pipeline processing 2M events/day with Apache Beam
+• Reduced pipeline latency 40% via query optimizations
+• Achieved 95% test coverage on unit/integration tests
+
+Teaching Assistant — UC Berkeley CS 61A (2020–2022)
+• Guided 30+ students weekly in Python, recursion, and data structures
+
+PROJECTS
+Personal Finance Tracker — React, Node.js, PostgreSQL
+• Full-stack web app with budget tracking & data visualization
+• Deployed on AWS EC2 with GitHub Actions CI/CD
+
+ML Image Classifier — Python, TensorFlow, Keras
+• Fine-tuned ResNet50 on custom dataset; 93% accuracy
+
+SKILLS
+Languages: Python, JavaScript/TypeScript, Java, SQL, Go (learning)
+Frameworks: React, Node.js, Flask, FastAPI, TensorFlow
+Cloud & Tools: AWS (EC2, S3, Lambda), Docker, Kubernetes, Git, PostgreSQL`;
+
+function loadSample() {
+  document.getElementById('resumeText').value = SAMPLE;
+  document.querySelector('[data-tab="pastePanel"]').click();
+}
+
+// ── Claude API ─────────────────────────────────────────────────────────────
+async function callClaude(userPrompt, systemPrompt, maxTokens = 1024) {
+  const key = getApiKey();
+  if (!key) { openKeyModal(); throw new Error('API key required'); }
+
+  const body = { model: 'claude-sonnet-4-6', max_tokens: maxTokens, messages: [{ role: 'user', content: userPrompt }] };
+  if (systemPrompt) body.system = systemPrompt;
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || `Anthropic API error ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data.content[0].text;
+}
+
+function parseJson(raw) {
+  let s = raw.trim();
+  if (s.includes('```')) {
+    s = s.split('```')[1];
+    if (s.startsWith('json')) s = s.slice(4);
+    s = s.split('```')[0];
+  }
+  return JSON.parse(s.trim());
+}
+
+// ── Resume analysis ────────────────────────────────────────────────────────
+const MUSE_CATEGORIES = [
+  'Software Engineer','Data Science','Engineering','Product','Design & UX',
+  'Operations','Marketing & Communications','Sales & Business Development',
+  'Business & Strategy','Finance','HR & Recruiting','Legal',
+  'Customer Service','Editorial','Education','Science',
+  'Healthcare & Medicine','Project Management','QA & Testing',
+  'Account Management','Administrative','Social Media & Community',
+];
+
+const CURRENT_YEAR = new Date().getFullYear();
+
+async function analyzeResume(resume, jobTitle, gradYear, visaRequired, country) {
+  const exp = gradYear ? ` (${CURRENT_YEAR - parseInt(gradYear)} yrs since graduation)` : '';
+
+  const prompt = `Analyze this candidate and produce a JSON job search plan.
+
+RESUME:
+${resume.slice(0, 4500)}
+
+CRITERIA:
+- Target role: ${jobTitle || 'Infer best-fit role from resume'}
+- Graduation year: ${gradYear}${exp}
+- Country: ${country}
+- Visa sponsorship required: ${visaRequired ? 'Yes' : 'No'}
+
+Return ONLY valid JSON with exactly these keys:
+{
+  "candidate_summary": "2-3 sentences on background and value proposition",
+  "key_skills": ["skill1","skill2","skill3","skill4","skill5"],
+  "experience_years": <integer>,
+  "seniority_level": "<entry|junior|mid|senior|lead|manager|director>",
+  "muse_category": "<pick closest from: ${MUSE_CATEGORIES.join(', ')}>",
+  "muse_level": "<Entry Level|Mid Level|Senior Level|Management|Internship>",
+  "search_keywords": "<3-5 word query>",
+  "alternative_titles": ["title1","title2"],
+  "strengths": ["strength1","strength2","strength3"],
+  "search_tips": "One concrete actionable tip for this specific candidate"
+}`;
+
+  const raw = await callClaude(prompt,
+    'You are a professional career advisor. Respond with valid JSON only — no markdown, no extra text.',
+    1024
+  );
+  return parseJson(raw);
+}
+
+// ── Job search — The Muse API ──────────────────────────────────────────────
+function stripHtml(html) {
+  const d = document.createElement('div');
+  d.innerHTML = html;
+  return d.textContent || d.innerText || '';
+}
+
+async function searchMuse(category, level, city) {
+  const url = new URL('https://www.themuse.com/api/public/jobs');
+  url.searchParams.set('category', category);
+  url.searchParams.set('page', '1');
+  if (level && level !== 'any') url.searchParams.set('level', level);
+  if (city) url.searchParams.set('location', city);
+
+  const res = await fetch(url.toString(), { headers: { Accept: 'application/json' } });
+  if (!res.ok) throw new Error(`Muse API error ${res.status}`);
+
+  const data = await res.json();
+  return (data.results || []).slice(0, 15).map(j => ({
+    id: String(j.id),
+    title: j.name || 'Unknown Title',
+    company: j.company?.name || 'Unknown Company',
+    location: (j.locations || []).map(l => l.name).join(', '),
+    level: (j.levels || []).map(l => l.name).join(', '),
+    description: stripHtml(j.contents || '').slice(0, 550),
+    url: j.refs?.landing_page || '#',
+    posted: (j.publication_date || '').slice(0, 10),
+    tags: (j.tags || []).map(t => t.name),
+  }));
+}
+
+// ── Job scoring ────────────────────────────────────────────────────────────
+async function scoreJobs(jobs, analysis, visaRequired) {
+  const summaries = jobs.slice(0, 15).map((j, i) =>
+    `${i+1}. [${j.title}] at [${j.company}], ${j.location}\n   ${j.description.slice(0, 260)}`
+  ).join('\n\n');
+
+  const prompt = `Score each job's fit for this candidate (0-100).
+
+CANDIDATE:
+- ${analysis.candidate_summary}
+- Skills: ${analysis.key_skills.slice(0,8).join(', ')}
+- Level: ${analysis.seniority_level} (${analysis.experience_years} yrs experience)
+- Needs visa sponsorship: ${visaRequired ? 'Yes' : 'No'}
+
+JOBS:
+${summaries}
+
+Return JSON only:
+{
+  "matches": [
+    {"job_number":1,"score":85,"reason":"One sentence explaining fit","visa_note":"mentions sponsorship" or null}
+  ]
+}
+
+Scoring weights: skill alignment 60%, seniority fit 25%, visa mention 15%.
+If visa needed but description doesn't mention sponsorship, reduce score by 10.`;
+
+  try {
+    const raw = await callClaude(prompt, null, 900);
+    const data = parseJson(raw);
+    const map = {};
+    (data.matches || []).forEach(m => { map[m.job_number - 1] = m; });
+    jobs.forEach((j, i) => {
+      const m = map[i] || {};
+      j.match_score = m.score ?? 50;
+      j.match_reason = m.reason || '';
+      j.visa_note = m.visa_note || null;
+    });
+    jobs.sort((a, b) => b.match_score - a.match_score);
+  } catch (e) {
+    console.warn('Scoring failed:', e);
+    jobs.forEach(j => { j.match_score = j.match_score ?? 50; j.match_reason = ''; j.visa_note = null; });
+  }
+  return jobs;
+}
+
+// ── Main search flow ───────────────────────────────────────────────────────
+async function runSearch() {
+  const resume = document.getElementById('resumeText').value.trim();
+  if (!resume) { alert('Please paste your resume or upload a file first.'); return; }
+  if (!getApiKey()) { openKeyModal(); return; }
+
+  showLoading();
+
+  try {
+    setStep('Analyzing your resume with Claude AI…');
+    const analysis = await analyzeResume(
+      resume,
+      document.getElementById('jobTitle').value.trim(),
+      document.getElementById('gradYear').value,
+      document.getElementById('visaRequired').checked,
+      document.getElementById('country').value,
+    );
+
+    setStep('Fetching live job listings…');
+    let jobs = [];
+    let warn = null;
+    try {
+      jobs = await searchMuse(
+        analysis.muse_category,
+        analysis.muse_level,
+        document.getElementById('city').value.trim(),
+      );
+
+      // Also try alternative title if few results
+      if (jobs.length < 5 && analysis.alternative_titles?.length) {
+        try {
+          const extra = await searchMuse(
+            analysis.alternative_titles[0],
+            analysis.muse_level,
+            document.getElementById('city').value.trim(),
+          );
+          const seen = new Set(jobs.map(j => j.id));
+          jobs = jobs.concat(extra.filter(j => !seen.has(j.id)));
+        } catch (_) { /* ignore */ }
+      }
+    } catch (e) {
+      warn = `Job listings unavailable: ${e.message}. Try again or check your network.`;
+    }
+
+    if (jobs.length) {
+      setStep('Scoring matches with Claude AI…');
+      jobs = await scoreJobs(jobs, analysis, document.getElementById('visaRequired').checked);
+    }
+
+    renderResults(analysis, jobs, warn);
+  } catch (e) {
+    showError(e.message);
+  }
+}
+
+// ── State helpers ──────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+let _stepTimer = null;
+
+function showLoading() {
+  $('welcome').style.display = 'none';
+  $('loading').style.display = 'flex';
+  $('results').style.display = 'none';
+  $('btnSearch').disabled = true;
+  $('btnSearch').innerHTML = '<span class="spinner" style="width:15px;height:15px;border-width:2px"></span> Searching…';
+  clearInterval(_stepTimer);
+}
+
+function setStep(msg) { $('loadingStep').textContent = msg; }
+
+function stopLoading() {
+  clearInterval(_stepTimer);
+  $('loading').style.display = 'none';
+  $('btnSearch').disabled = false;
+  $('btnSearch').innerHTML = '🔍 Search Jobs';
+}
+
+function showError(msg) {
+  stopLoading();
+  $('results').innerHTML = `<div class="error-box">⚠️ ${esc(msg)}</div>`;
+  $('results').style.display = 'block';
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+function renderResults(analysis, jobs, warn) {
+  stopLoading();
+  let html = '';
+
+  if (warn) html += `<div class="warn-box">⚠️ ${esc(warn)}</div>`;
+
+  // Analysis card
+  const levelBadge = ['senior','lead','manager','director'].includes(analysis.seniority_level)
+    ? 'badge-exp' : 'badge-level';
+  const skills = (analysis.key_skills || []).map(s => `<span class="skill-tag">${esc(s)}</span>`).join('');
+
+  html += `<div class="analysis-card">
+    <div class="analysis-title">👤 Your Profile</div>
+    <p class="analysis-summary">${esc(analysis.candidate_summary || '')}</p>
+    <div class="badge-row">
+      <span class="badge ${levelBadge}">${cap(analysis.seniority_level || 'mid')} Level</span>
+      <span class="badge badge-exp">${analysis.experience_years ?? '?'} yrs experience</span>
+    </div>
+    <div class="skills-list">${skills}</div>
+    ${analysis.search_tips ? `<div class="tip-box"><strong>💡 Search tip</strong>${esc(analysis.search_tips)}</div>` : ''}
+  </div>`;
+
+  html += `<div class="results-header">
+    <div class="results-title">🔎 Job Matches</div>
+    <div class="results-count">${jobs.length} result${jobs.length !== 1 ? 's' : ''} · The Muse</div>
+  </div>`;
+
+  if (!jobs.length) {
+    html += `<div class="empty-state">
+      <div class="empty-state-icon">🗂️</div>
+      <h3>No listings found</h3>
+      <p>Try a different city or leave city blank for broader results.<br>
+      The Muse has strong US coverage — results may be limited elsewhere.</p>
+    </div>`;
+  } else {
+    html += '<div class="jobs-list">' + jobs.map(jobCard).join('') + '</div>';
+  }
+
+  $('results').innerHTML = html;
+  $('results').style.display = 'block';
+  $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function jobCard(j) {
+  const score = j.match_score ?? 50;
+  const mc = score >= 75 ? 'match-high' : score >= 50 ? 'match-mid' : 'match-low';
+  const meta = [];
+  if (j.location) meta.push(`📍 ${esc(j.location)}`);
+  if (j.level)    meta.push(`🎯 ${esc(j.level)}`);
+  if (j.posted)   meta.push(`📅 ${esc(j.posted)}`);
+
+  return `<div class="job-card">
+    <div class="job-card-top">
+      <div class="job-info">
+        <div class="job-title">${esc(j.title)}</div>
+        <div class="job-company">${esc(j.company)}</div>
+      </div>
+      <div class="match-badge ${mc}">${score}<span class="score-label">MATCH</span></div>
+    </div>
+    ${meta.length ? `<div class="job-meta">${meta.map(m=>`<span>${m}</span>`).join('')}</div>` : ''}
+    ${j.description ? `<div class="job-desc">${esc(j.description)}</div>` : ''}
+    <div class="job-footer">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;flex:1;min-width:0">
+        ${j.match_reason ? `<span class="match-reason">✓ ${esc(j.match_reason)}</span>` : ''}
+        ${j.visa_note    ? `<span class="visa-note">🛂 ${esc(j.visa_note)}</span>` : ''}
+      </div>
+      <a href="${safeUrl(j.url)}" target="_blank" rel="noopener" class="btn-apply">Apply ↗</a>
+    </div>
+  </div>`;
+}
+
+// ── Utils ──────────────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function safeUrl(s) { return /^https?:\/\//i.test(s) ? esc(s) : '#'; }
+function cap(s) { return String(s).replace(/\b\w/g, c => c.toUpperCase()); }
+
+// ── Init ───────────────────────────────────────────────────────────────────
+renderKeyBanner();
+</script>
+</body>
+</html>
