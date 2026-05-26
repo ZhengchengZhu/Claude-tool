@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobMatch AI — Smart Job Search Engine</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar (search form) ──────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">🎯</div>
+        <span class="logo-text">JobMatch AI</span>
+      </div>
+      <div class="tagline">AI-powered job search &amp; matching</div>
+    </div>
+
+    <div class="sidebar-body">
+      <form id="searchForm" autocomplete="off">
+
+        <!-- Resume -->
+        <div class="form-section">
+          <div class="form-section-title">Your Resume</div>
+
+          <div class="resume-tabs">
+            <button type="button" class="tab-btn active" data-tab="pastePanel">Paste Text</button>
+            <button type="button" class="tab-btn" data-tab="uploadPanel">Upload File</button>
+          </div>
+
+          <div id="pastePanel" class="tab-panel active">
+            <textarea
+              id="resumeText"
+              name="resume"
+              rows="8"
+              placeholder="Paste your resume here…&#10;&#10;Include your skills, experience, education, and contact info for best results."
+            ></textarea>
+          </div>
+
+          <div id="uploadPanel" class="tab-panel">
+            <div class="upload-area" id="uploadArea">
+              <input type="file" id="resumeFile" accept=".pdf,.docx,.txt">
+              <div class="upload-icon">📄</div>
+              <div class="upload-label">
+                <strong>Click to upload</strong> or drag &amp; drop<br>
+                PDF, DOCX, or TXT
+              </div>
+              <div class="upload-status" id="uploadStatus"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Target role -->
+        <div class="form-section">
+          <div class="form-section-title">Job Preferences</div>
+
+          <div class="field">
+            <label for="jobTitle">Target job title</label>
+            <input
+              type="text"
+              id="jobTitle"
+              name="job_title"
+              placeholder="e.g. Software Engineer, Data Analyst…"
+            >
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="graduationYear">Graduation year</label>
+              <input
+                type="number"
+                id="graduationYear"
+                name="graduation_year"
+                min="1980"
+                max="{{ current_year }}"
+                placeholder="{{ current_year - 2 }}"
+              >
+            </div>
+            <div class="field">
+              <label for="jobType">Job type</label>
+              <select id="jobType" name="job_type">
+                <option value="any">Any</option>
+                <option value="full_time">Full-time</option>
+                <option value="part_time">Part-time</option>
+                <option value="contract">Contract</option>
+                <option value="permanent">Permanent</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="form-section">
+          <div class="form-section-title">Location</div>
+
+          <div class="field">
+            <label for="country">Country / Region</label>
+            <select id="country" name="country">
+              {% for c in countries %}
+              <option value="{{ c }}" {% if c == 'United States' %}selected{% endif %}>{{ c }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="city">City (optional)</label>
+            <input
+              type="text"
+              id="city"
+              name="city"
+              placeholder="e.g. New York, London, Toronto…"
+            >
+          </div>
+        </div>
+
+        <!-- Extra filters -->
+        <div class="form-section">
+          <div class="form-section-title">Requirements</div>
+
+          <div class="checkbox-row">
+            <input type="checkbox" id="visaRequired" name="visa_required">
+            <label for="visaRequired">I need visa sponsorship</label>
+          </div>
+
+          <div class="field">
+            <label for="salaryMin">Minimum salary (USD, optional)</label>
+            <input
+              type="number"
+              id="salaryMin"
+              name="salary_min"
+              min="0"
+              step="5000"
+              placeholder="e.g. 80000"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn-search" id="btnSearch">
+          🔍 Search Jobs
+        </button>
+
+        <div class="sample-link">
+          No resume handy? <a id="sampleLink" href="#">Load a sample resume</a>
+        </div>
+
+      </form>
+    </div>
+  </aside>
+
+  <!-- ── Main content ────────────────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Welcome state -->
+    <div id="welcome" class="welcome">
+      <div class="welcome-icon">🎯</div>
+      <h2>Find your next opportunity</h2>
+      <p>
+        Paste your resume, answer a few quick questions, and let
+        Claude AI match you with live job listings tailored to your
+        skills and goals.
+      </p>
+      <p style="font-size:12px; color:#94a3b8; margin-top:8px;">
+        Powered by Claude AI + Adzuna job listings
+      </p>
+    </div>
+
+    <!-- Loading state -->
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <div class="loading-text">
+        Finding your best matches…<br>
+        <span id="loadingStep" class="loading-step"></span>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="results"></div>
+
+  </main>
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
